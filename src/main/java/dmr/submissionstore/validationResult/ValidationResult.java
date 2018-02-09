@@ -1,7 +1,5 @@
-package dmr.submissionstore.submittableType;
+package dmr.submissionstore.validationResult;
 
-import com.fasterxml.jackson.annotation.JsonRawValue;
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,10 +10,13 @@ import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Document
 @Data
-public class SubmittableType {
+public class ValidationResult {
 
     @Id
     private String id;
@@ -31,22 +32,11 @@ public class SubmittableType {
     @Version
     private Long version;
 
-    private String type;
-    private String partOfType;
+    private String submittableId;
+    private String submissionId;
 
-    @JsonRawValue
-    private String schema;
+    private String submittableVersion;
 
-    public void setSchema(JsonNode json) {
-        this.schema = json.toString();
-    }
-
-    @JsonRawValue
-    private String uiSchema;
-
-    public void setUiSchema(JsonNode json) {
-        this.uiSchema = json.toString();
-    }
-
+    private Map<String, List<SingleValidationResult>> expectedResults = new HashMap<>();
 
 }
