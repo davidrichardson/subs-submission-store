@@ -1,9 +1,10 @@
 package dmr.submissionstore.submittableType;
 
-import dmr.submissionstore.submission.Submission;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.Optional;
 
-//TODO read without authentication or admin
-public interface SubmittableTypeMongoRepository extends MongoRepository<SubmittableType,String>{
+public interface SubmittableTypeMongoRepository extends MongoRepository<SubmittableType, String> {
+
+    Optional<SubmittableType> findByTypeName(String typeName);
 }

@@ -1,8 +1,9 @@
 package dmr.submissionstore.submittable.events;
 
+import dmr.submissionstore.common.Event;
 import dmr.submissionstore.submittable.Submittable;
-import dmr.submissionstore.submittable.services.FileRefExtractor;
-import dmr.submissionstore.submittable.services.RefExtractor;
+import dmr.submissionstore.submittable.extractors.FileRefExtractor;
+import dmr.submissionstore.submittable.extractors.RefExtractor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ public class SubmittableEventHandler {
 
     @NonNull private RefExtractor refExtractor;
     @NonNull private FileRefExtractor fileRefExtractor;
+    @NonNull private SubmittableMessageService submittableMessageService;
 
     @HandleBeforeCreate
     public void handleBeforeCreate(Submittable submittable){
@@ -38,7 +40,7 @@ public class SubmittableEventHandler {
         log.debug("handle after create {}",submittable);
         log.info("handle after create submittable {}",submittable.getId());
 
-        //TODO rabbit event
+        submittableMessageService.notifyCrudEvent(submittable, Event.created);
     }
 
     @HandleAfterSave
@@ -46,7 +48,7 @@ public class SubmittableEventHandler {
         log.debug("handle after save {}",submittable);
         log.info("handle after save submittable {}",submittable.getId());
 
-        //TODO rabbit event
+        submittableMessageService.notifyCrudEvent(submittable, Event.updated);
     }
 
     @HandleAfterDelete
@@ -54,7 +56,7 @@ public class SubmittableEventHandler {
         log.debug("handle after save {}",submittable);
         log.info("handle after delete submittable {}",submittable.getId());
 
-        //TODO rabbit event
+        submittableMessageService.notifyCrudEvent(submittable, Event.deleted);
     }
 
     public void handleBeforeCreateOrSave(Submittable submittable){

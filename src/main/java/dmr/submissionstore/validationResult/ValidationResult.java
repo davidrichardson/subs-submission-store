@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
@@ -32,7 +33,10 @@ public class ValidationResult {
     @Version
     private Long version;
 
+    @Indexed(unique = true)
     private String submittableId;
+
+    @Indexed
     private String submissionId;
 
     private String submittableVersion;

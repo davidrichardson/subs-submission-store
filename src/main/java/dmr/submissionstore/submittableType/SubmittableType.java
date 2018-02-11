@@ -3,19 +3,16 @@ package dmr.submissionstore.submittableType;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
+import org.springframework.data.annotation.*;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.hateoas.Identifiable;
 
 import java.time.Instant;
 
 @Document
 @Data
-public class SubmittableType {
+public class SubmittableType implements Identifiable<String> {
 
     @Id
     private String id;
@@ -31,8 +28,8 @@ public class SubmittableType {
     @Version
     private Long version;
 
-    private String type;
-    private String partOfType;
+    @Indexed(unique = true)
+    private String typeName;
 
     @JsonRawValue
     private String schema;
@@ -43,10 +40,6 @@ public class SubmittableType {
 
     @JsonRawValue
     private String uiSchema;
-
-    public void setUiSchema(JsonNode json) {
-        this.uiSchema = json.toString();
-    }
-
+    public void setUiSchema(JsonNode json) { this.uiSchema = json.toString(); }
 
 }

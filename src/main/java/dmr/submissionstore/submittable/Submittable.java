@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
 import dmr.submissionstore.common.model.Submitter;
 import dmr.submissionstore.common.model.Team;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
@@ -16,6 +17,7 @@ import java.util.Collection;
 
 @Document
 @Data
+@Builder
 @CompoundIndexes({
         @CompoundIndex(name = "unq_subId_docType_uniqueName", def = "{'submissionId': 1, 'documentType': 1, 'uniqueName': 1}", unique = true),
         @CompoundIndex(name = "teamName_docType_uniqueName", def = "{'team.name': 1, 'documentType': 1, 'uniqueName': 1}", unique = false)
@@ -45,7 +47,7 @@ public class Submittable implements Identifiable<String> {
 
     private String documentType;
 
-    private String processingStatus;
+    private String status;
 
     private String validationStatus;
 

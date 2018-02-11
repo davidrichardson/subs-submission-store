@@ -32,7 +32,6 @@ public class Submission implements Identifiable<String> {
     private Team team;
 
     private String title;
-
     private String status;
 
 }
