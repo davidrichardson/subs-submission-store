@@ -1,8 +1,8 @@
-package dmr.submissionstore.submittable.services;
+package dmr.submissionstore.submittable.extractors;
 
 import dmr.submissionstore.submittable.Ref;
+import dmr.submissionstore.submittable.UploadedFileRef;
 import org.hamcrest.core.IsEqual;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
@@ -20,12 +21,10 @@ public class RefExtractorTest {
     private String jsonDoc;
     private Set<Ref> expected;
 
-    private RefExtractor refExtractor;
+    private RefExtractor refExtractor = new RefExtractor();
 
-    @Before
-    public void buildUp() {
-        refExtractor = new RefExtractor();
-
+    @Test
+    public void extractRefs() {
         jsonDoc = "{\n" +
                 "  \"uniqueName\": \"anAssay\",\n" +
                 "  \"study\": {\n" +
@@ -76,14 +75,31 @@ public class RefExtractorTest {
                 ref -> expected.add(ref)
         );
 
-    }
-
-    @Test
-    public void extractRefs() {
         Collection<Ref> actual = refExtractor.extractRefs(jsonDoc);
 
         assertThat(actual, notNullValue());
         assertThat(actual,containsInAnyOrder(expected.stream().map(IsEqual::equalTo).collect(Collectors.toList())));
     }
 
+
+    @Test
+    public void handleInvalidDocument() {
+        String jsonDoc = "{";
+        Set<UploadedFileRef> expected = new HashSet<>();
+
+        Collection<Ref> actual = refExtractor.extractRefs(jsonDoc);
+
+        assertThat(actual,empty());
+    }
+
+    @Test
+    public void handleNullDocument() {
+        String jsonDoc = null;
+        Set<UploadedFileRef> expected = new HashSet<>();
+
+        Collection<Ref> actual = refExtractor.extractRefs(jsonDoc);
+
+        assertThat(actual,empty());
+
+    }
 }

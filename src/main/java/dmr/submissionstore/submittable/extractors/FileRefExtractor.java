@@ -1,19 +1,12 @@
-package dmr.submissionstore.submittable.services;
+package dmr.submissionstore.submittable.extractors;
 
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.JsonPath;
-import com.jayway.jsonpath.Option;
-import com.jayway.jsonpath.ReadContext;
-import dmr.submissionstore.submittable.Ref;
+import com.jayway.jsonpath.*;
 import dmr.submissionstore.submittable.UploadedFileRef;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -58,14 +51,25 @@ public class FileRefExtractor {
     }
 
     public Collection<UploadedFileRef> extractFileRefs(String document) {
+        if (document == null){
+            log.debug("null document");
+            return Collections.emptyList();
+        }
+
         log.debug("Converting string to json {}", document);
         log.info("Converting string to json");
 
-        ReadContext pathReadContext = JsonPath.using(pathListConfiguration).parse(document);
-        ReadContext valueReadContext = JsonPath.using(valueProviderConfiguration).parse(document);
+        try {
+            ReadContext pathReadContext = JsonPath.using(pathListConfiguration).parse(document);
+            ReadContext valueReadContext = JsonPath.using(valueProviderConfiguration).parse(document);
 
-        log.info("Converted string to json");
-        return this.extractFileRefs(pathReadContext, valueReadContext);
+            log.info("Converted string to json");
+            return this.extractFileRefs(pathReadContext, valueReadContext);
+        }
+        catch (InvalidJsonException e){
+            log.debug("invalid json document");
+            return Collections.emptyList();
+        }
 
     }
 
