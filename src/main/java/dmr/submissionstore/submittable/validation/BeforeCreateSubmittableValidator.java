@@ -36,8 +36,6 @@ public class BeforeCreateSubmittableValidator implements Validator {
         commonSubmittableValidation.validate(submittable, errors);
 
         //TODO if alias exists for type + team, ensure consistent with existing record (type, alias)
-
-
-        //TODO validate document is valid JSON
+        //TODO check that there's at mose only one incomplete version of the record being edited
     }
 }
