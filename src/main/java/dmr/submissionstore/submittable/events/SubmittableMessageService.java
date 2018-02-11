@@ -23,7 +23,7 @@ public class SubmittableMessageService {
     public void notifyCrudEvent(Submittable submittable, Event event) {
         log.debug("notify {} for {}",event,submittable);
 
-        String routingKey = String.join(".", "usi", "submittable", submittable.getDocumentType(), event.name());
+        String routingKey = String.join(".", "subs", "submittable", submittable.getDocumentType(), event.name());
 
         log.debug("routing key {} for {} {}",routingKey,event,submittable);
 
