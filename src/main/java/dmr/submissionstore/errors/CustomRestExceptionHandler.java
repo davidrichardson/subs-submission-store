@@ -24,7 +24,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * This method handles the HttpRequestMethodNotSupportedException and returns a useful body response
-     * of type {@link ApiError}
+     * of refType {@link ApiError}
      *
      * @param ex
      * @param headers
@@ -45,7 +45,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * This method handles the HttpMessageNotReadableException (exception for malformed json) and returns
-     * a useful body response of type {@link ApiError}
+     * a useful body response of refType {@link ApiError}
      *
      * @param ex
      * @param headers
@@ -63,7 +63,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * This method handles the {@link RepositoryConstraintViolationException} that gets thrown whenever a repository constrain is violated
-     * like a missing required value and returns a useful body response of type {@link ApiError}
+     * like a missing required value and returns a useful body response of refType {@link ApiError}
      *
      * @param ex
      * @param request

@@ -17,8 +17,8 @@ public class SubmittableMessageService {
     @NonNull
     private RabbitMessagingTemplate rabbitMessagingTemplate;
 
-    @NonNull
-    private String exchangeName;
+
+    private String exchangeName = "usi-2"; //TODO move elsewhere
 
     public void notifyCrudEvent(Submittable submittable, Event event) {
         log.debug("notify {} for {}",event,submittable);

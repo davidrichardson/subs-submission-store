@@ -1,10 +1,10 @@
 package dmr.submissionstore.submittable;
 
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
-@Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UploadedFileRef {
 
     private String uploadedFile;

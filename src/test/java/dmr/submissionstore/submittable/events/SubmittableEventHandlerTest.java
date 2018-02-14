@@ -1,5 +1,6 @@
 package dmr.submissionstore.submittable.events;
 
+import dmr.submissionstore.JsonHelper;
 import dmr.submissionstore.common.Event;
 import dmr.submissionstore.submittable.Ref;
 import dmr.submissionstore.submittable.Submittable;
@@ -40,24 +41,29 @@ public class SubmittableEventHandlerTest {
     Submittable testInput;
 
     @Before
-    public void buildUp(){
-        this.testInput = Submittable.builder()
-                .document("{}")
-                .documentType("exampleType")
-                .uniqueName("name1")
-                .build();
+    public void buildUp() {
+        this.testInput = new Submittable();
+        this.testInput.setDocument(JsonHelper.stringToJsonNode("{}"));
+        this.testInput.setDocumentType("exampleType");
+        this.testInput.setUniqueName("name1");
+    }
 
+    private Ref ref(){
+        Ref r = new Ref();
+        r.setAccession("blah");
+        return r;
     }
 
 
     @Test
-    public void testBeforeCreateCallsRefExtractors(){
+    public void testBeforeCreateCallsRefExtractors() {
+
         Collection<Ref> refs = Arrays.asList(
-                Ref.builder().accession("blah").build()
+                ref()
         );
 
         Collection<UploadedFileRef> files = Arrays.asList(
-                UploadedFileRef.builder().uploadedFile("mmmm.txt").build()
+               uploadedFileRef()
         );
 
         given(this.refExtractor.extractRefs("{}")).willReturn(refs);
@@ -66,19 +72,25 @@ public class SubmittableEventHandlerTest {
 
         submittableEventHandler.handleBeforeCreate(testInput);
 
-        assertThat(testInput.getRefs(),equalTo(refs));
-        assertThat(testInput.getUploadedFileRefs(),equalTo(files));
+        assertThat(testInput.getRefs(), equalTo(refs));
+        assertThat(testInput.getUploadedFileRefs(), equalTo(files));
 
     }
 
+    private UploadedFileRef uploadedFileRef(){
+        UploadedFileRef u = new UploadedFileRef();
+        u.setUploadedFile("mmmm.txt");
+        return u;
+    }
+
     @Test
-    public void testBeforeSaveCallsRefExtractors(){
+    public void testBeforeSaveCallsRefExtractors() {
         Collection<Ref> refs = Arrays.asList(
-                Ref.builder().accession("blah").build()
+                ref()
         );
 
         Collection<UploadedFileRef> files = Arrays.asList(
-                UploadedFileRef.builder().uploadedFile("mmmm.txt").build()
+                uploadedFileRef()
         );
 
         given(this.refExtractor.extractRefs("{}")).willReturn(refs);
@@ -87,13 +99,13 @@ public class SubmittableEventHandlerTest {
 
         submittableEventHandler.handleBeforeSave(testInput);
 
-        assertThat(testInput.getRefs(),equalTo(refs));
-        assertThat(testInput.getUploadedFileRefs(),equalTo(files));
+        assertThat(testInput.getRefs(), equalTo(refs));
+        assertThat(testInput.getUploadedFileRefs(), equalTo(files));
 
     }
 
     @Test
-    public void testAfterCreateCallsMessageService(){
+    public void testAfterCreateCallsMessageService() {
 
         submittableEventHandler.handleAfterCreate(testInput);
 
@@ -101,7 +113,7 @@ public class SubmittableEventHandlerTest {
     }
 
     @Test
-    public void testAfterUpdateCallsMessageService(){
+    public void testAfterUpdateCallsMessageService() {
 
         submittableEventHandler.handleAfterUpdate(testInput);
 
@@ -109,7 +121,7 @@ public class SubmittableEventHandlerTest {
     }
 
     @Test
-    public void testAfterDeleteCallsMessageService(){
+    public void testAfterDeleteCallsMessageService() {
 
         submittableEventHandler.handleAfterDelete(testInput);
 

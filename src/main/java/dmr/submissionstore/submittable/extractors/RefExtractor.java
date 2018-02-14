@@ -2,7 +2,6 @@ package dmr.submissionstore.submittable.extractors;
 
 import com.jayway.jsonpath.*;
 import dmr.submissionstore.submittable.Ref;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -12,32 +11,31 @@ import java.util.*;
 /**
  * Given a string representing a JSON document,
  * return a collection of any Refs discovered
- *
+ * <p>
  * refs match these patterns:
- *
- * {"ref": {refBody}, "type": "a type"}
+ * <p>
+ * {"ref": {refBody}, "refType": "a refType"}
  * or
- * {"extractors": [{refBody},...], "type": "a type"}
- *
+ * {"extractors": [{refBody},...], "refType": "a refType"}
+ * <p>
  * refbody should either:
- *   accession
- *   or
- *   teamName + uniqueName
- *   or
- *   uniqueName (we'll assume it's the same team as the owner of the document)
- *
- *
- *  You can include any other information, but it won't be extracted into the ref(it's still in the document)
+ * accession
+ * or
+ * teamName + uniqueName
+ * or
+ * uniqueName (we'll assume it's the same team as the owner of the document)
+ * <p>
+ * <p>
+ * You can include any other information, but it won't be extracted into the ref(it's still in the document)
  */
 @Component
 @Slf4j
 public class RefExtractor {
-    
-    private static final JsonPath singleRefFinder = JsonPath.compile("$..[?(@.ref && @.type)]");
-    private static final JsonPath multiRefFinder = JsonPath.compile("$..[?(@.refs && @.type)]");
 
-    private static final Configuration pathListConfiguration = pathListProviderConfiguration();
-    private static final Configuration valueProviderConfiguration = valueProviderConfiguration();
+    private static final JsonPath singleRefFinder = JsonPath.compile("$..[?(@.refType)]");
+
+    private static final Configuration pathListConfiguration = ExtractorJsonPathConfig.pathListProviderConfiguration();
+    private static final Configuration valueProviderConfiguration = ExtractorJsonPathConfig.valueProviderConfiguration();
 
     private Collection<Ref> extractRefs(ReadContext pathReadDocument, ReadContext valueReadContext) {
         log.info("Extracting refs from document");
@@ -45,52 +43,23 @@ public class RefExtractor {
 
         final Set<Ref> refs = new HashSet<>();
 
-        refs.addAll(extractSingleRefs(pathReadDocument, valueReadContext));
-        refs.addAll(extractMultiRefs(pathReadDocument, valueReadContext));
+        List<String> paths = pathReadDocument.read(singleRefFinder);
 
+        for (String path : paths) {
+            Ref ref = valueReadContext.read(path, Ref.class);
+            if (ref != null) {
+                ref.setSourceJsonPath(path);
+                refs.add(ref);
+            }
+        }
 
         log.debug("Extracted refs from document {} {}", pathReadDocument, refs);
 
         return refs;
     }
 
-    private Collection<Ref> extractSingleRefs(ReadContext pathReadDocument, ReadContext valueReadContext) {
-        log.debug("Extracting single refs from document {}", pathReadDocument);
-
-        final Set<Ref> refs = new HashSet<>();
-
-        List<String> paths = pathReadDocument.read(singleRefFinder);
-
-        for (String path : paths) {
-            SingleRef singleRef = valueReadContext.read(path, SingleRef.class);
-            if (singleRef.ref != null) {
-                refs.add(singleRef.asRef(path));
-            }
-        }
-
-        return refs;
-    }
-
-    private Collection<Ref> extractMultiRefs(ReadContext pathReadDocument, ReadContext valueReadContext) {
-        log.debug("Extracting multi refs from document {}", pathReadDocument);
-
-        final Set<Ref> refs = new HashSet<>();
-
-        List<String> paths = pathReadDocument.read(multiRefFinder);
-
-        for (String path : paths) {
-            MultiRef multiRef = valueReadContext.read(path, MultiRef.class);
-            if (multiRef.refs != null) {
-                refs.addAll(multiRef.asRefs(path));
-            }
-        }
-
-        return refs;
-    }
-
-
     public Collection<Ref> extractRefs(String document) {
-        if (document == null){
+        if (document == null) {
             log.debug("null document");
             return Collections.emptyList();
         }
@@ -104,79 +73,10 @@ public class RefExtractor {
 
             log.info("Converted string to json");
             return this.extractRefs(pathReadContext, valueReadContext);
-        }
-        catch (InvalidJsonException e){
+        } catch (InvalidJsonException e) {
             log.debug("invalid json document");
             return Collections.emptyList();
         }
 
     }
-
-    private static Configuration pathListProviderConfiguration() {
-        return Configuration
-                .builder()
-                .options(Option.AS_PATH_LIST, Option.ALWAYS_RETURN_LIST)
-                .build();
-    }
-
-    private static Configuration valueProviderConfiguration() {
-        return Configuration
-                .builder()
-                .build();
-    }
-
-
-    @Data
-    private static class RefBody {
-        private String uniqueName;
-        private String accession;
-        private String teamName;
-
-        Ref.RefBuilder asRefBuilder() {
-            return Ref.builder()
-                    .accession(accession)
-                    .uniqueName(uniqueName)
-                    .teamName(teamName)
-                    ;
-        }
-    }
-
-    @Data
-    private static class SingleRef {
-        private String type;
-        private RefBody ref;
-
-        Ref asRef(String jsonPath) {
-            return ref.asRefBuilder()
-                    .type(type)
-                    .sourceJsonPath(jsonPath + "['ref']")
-                    .build();
-        }
-    }
-
-    @Data
-    private static class MultiRef {
-        private String type;
-        private RefBody[] refs;
-
-        Collection<Ref> asRefs(String jsonPath) {
-            Set<Ref> refsBuilt = new HashSet<>();
-
-            for (int i = 0; i < refs.length; i++) {
-                if (refs[i] != null) {
-                    String elementPath = jsonPath + "['refs'][" + i + "]";
-
-                    refsBuilt.add(
-                            refs[i].asRefBuilder()
-                                    .type(type)
-                                    .sourceJsonPath(elementPath)
-                                    .build()
-                    );
-                }
-            }
-            return refsBuilt;
-        }
-    }
-
-
 }

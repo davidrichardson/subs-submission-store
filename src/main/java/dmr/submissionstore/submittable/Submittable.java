@@ -1,11 +1,11 @@
 package dmr.submissionstore.submittable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
 import dmr.submissionstore.common.model.Submitter;
 import dmr.submissionstore.common.model.Team;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
@@ -15,9 +15,10 @@ import org.springframework.hateoas.Identifiable;
 import java.time.Instant;
 import java.util.Collection;
 
+
 @Document
 @Data
-@Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 @CompoundIndexes({
         @CompoundIndex(name = "unq_subId_docType_uniqueName", def = "{'submissionId': 1, 'documentType': 1, 'uniqueName': 1}", unique = true),
         @CompoundIndex(name = "teamName_docType_uniqueName", def = "{'team.name': 1, 'documentType': 1, 'uniqueName': 1}", unique = false)
@@ -61,9 +62,6 @@ public class Submittable implements Identifiable<String> {
 
     private Collection<Ref> refs;
     private Collection<UploadedFileRef> uploadedFileRefs;
-
-    //TODO validation results
-    //TODO
 
 
 }

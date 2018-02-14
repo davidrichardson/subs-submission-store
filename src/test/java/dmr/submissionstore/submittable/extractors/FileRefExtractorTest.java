@@ -4,6 +4,7 @@ import dmr.submissionstore.submittable.UploadedFileRef;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,12 +37,12 @@ public class FileRefExtractorTest {
                 "  },\n" +
                 "  \"phoneNumbers\": [\n" +
                 "    {\n" +
-                "      \"type\"  : \"iPhone\",\n" +
+                "      \"refType\"  : \"iPhone\",\n" +
                 "      \"number\": \"0123-4567-8888\",\n" +
                 "      \"uploadedFile\": \"bob.txt\"\n" +
                 "    },\n" +
                 "    {\n" +
-                "      \"type\"  : \"home\",\n" +
+                "      \"refType\"  : \"home\",\n" +
                 "      \"number\": \"0123-4567-8910\"\n" +
                 "    }\n" +
                 "  ]\n" +
@@ -49,19 +50,24 @@ public class FileRefExtractorTest {
 
         Set<UploadedFileRef> expected = new HashSet<>();
 
-        Stream.of(
-                UploadedFileRef.builder().uploadedFile("alice.txt").sourceJsonPath("$['address']['uploadedFile']").build(),
-                UploadedFileRef.builder().uploadedFile("bob.txt").sourceJsonPath("$['phoneNumbers'][0]['uploadedFile']").build()
+        expected.addAll(Arrays.asList(
+                uploadedFileRef("alice.txt", "$['address']"),
+                uploadedFileRef("bob.txt", "$['phoneNumbers'][0]")
 
-        ).forEach(
-                ref -> expected.add(ref)
-        );
+        ));
 
         Collection<UploadedFileRef> actual = refExtractor.extractFileRefs(jsonDoc);
 
         assertThat(actual, notNullValue());
-        assertThat(actual,containsInAnyOrder(expected.stream().map(IsEqual::equalTo).collect(Collectors.toList())));
+        assertThat(actual, containsInAnyOrder(expected.stream().map(IsEqual::equalTo).collect(Collectors.toList())));
 
+    }
+
+    private UploadedFileRef uploadedFileRef(String file, String sourceJsonPath) {
+        UploadedFileRef u = new UploadedFileRef();
+        u.setUploadedFile(file);
+        u.setSourceJsonPath(sourceJsonPath);
+        return u;
     }
 
     @Test
@@ -71,7 +77,7 @@ public class FileRefExtractorTest {
 
         Collection<UploadedFileRef> actual = refExtractor.extractFileRefs(jsonDoc);
 
-        assertThat(actual,empty());
+        assertThat(actual, empty());
     }
 
     @Test
@@ -81,7 +87,18 @@ public class FileRefExtractorTest {
 
         Collection<UploadedFileRef> actual = refExtractor.extractFileRefs(jsonDoc);
 
-        assertThat(actual,empty());
+        assertThat(actual, empty());
+
+    }
+
+    @Test
+    public void handleEmptyDocument() {
+        String jsonDoc = "{}";
+        Set<UploadedFileRef> expected = new HashSet<>();
+
+        Collection<UploadedFileRef> actual = refExtractor.extractFileRefs(jsonDoc);
+
+        assertThat(actual, empty());
 
     }
 }

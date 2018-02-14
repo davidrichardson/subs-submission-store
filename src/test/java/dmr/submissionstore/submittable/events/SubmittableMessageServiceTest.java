@@ -1,5 +1,8 @@
 package dmr.submissionstore.submittable.events;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dmr.submissionstore.JsonHelper;
 import dmr.submissionstore.common.Event;
 import dmr.submissionstore.submittable.Submittable;
 import org.junit.Before;
@@ -8,6 +11,8 @@ import org.junit.runner.RunWith;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.io.IOException;
 
 import static org.mockito.BDDMockito.*;
 
@@ -19,26 +24,26 @@ public class SubmittableMessageServiceTest {
 
     @MockBean
     RabbitMessagingTemplate rabbitMessagingTemplate;
-    final String exchangeName = "testexchange1";
 
 
     @Before
     public void buildUp() {
-        submittableMessageService = new SubmittableMessageService(rabbitMessagingTemplate, exchangeName);
+        submittableMessageService = new SubmittableMessageService(rabbitMessagingTemplate);
     }
 
 
     @Test
     public void test() {
-        Submittable submittable = Submittable.builder()
-                .document("{}")
-                .documentType("testType")
-                .build();
+        Submittable submittable = new Submittable();
+        submittable.setDocument(JsonHelper.stringToJsonNode("{}"));
+        submittable.setDocumentType("testType");
 
         submittableMessageService.notifyCrudEvent(submittable, Event.created);
 
         String expectedRoutingKey = "subs.submittable.testType.created";
 
-        verify(rabbitMessagingTemplate).convertAndSend(exchangeName, expectedRoutingKey, submittable);
+        verify(rabbitMessagingTemplate).convertAndSend("usi-2", expectedRoutingKey, submittable);
     }
+
+
 }
