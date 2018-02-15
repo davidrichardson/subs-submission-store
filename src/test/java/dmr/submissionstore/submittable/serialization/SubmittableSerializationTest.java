@@ -11,11 +11,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.boot.test.json.ObjectContent;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @JsonTest
@@ -24,45 +25,19 @@ public class SubmittableSerializationTest {
     @Autowired
     private JacksonTester<Submittable> json;
 
-
     @Test
     public void testSerialize() throws Exception {
         Submittable details = submittable();
-        assertThat(this.json.write(details)).isEqualToJson(json());
+        assertThat(this.json.write(details)).isEqualToJson("expected-submittable.json");
     }
 
     @Test
     public void testDeserialize() throws Exception {
-        String json = json();
-        assertThat(this.json.parse(json()))
+        ObjectContent<Submittable> submittableObjectContent = this.json.read("expected-submittable.json");
+        Submittable submittable = submittableObjectContent.getObject();
+        assertThat(submittable)
                 .isEqualTo(submittable());
-        assertThat(this.json.parseObject(json).getId()).isEqualTo("1234");
-    }
-
-    private String json() {
-        String json = "{\n" +
-                "  \"id\": \"1234\",\n" +
-                "  \"createdBy\": \"Alice\",\n" +
-                "  \"lastModifiedBy\": \"Bob\",\n" +
-                "  \"version\": 1,\n" +
-                "  \"submitter\": {\"email\": \"alice@thing.ac.uk\"},\n" +
-                "  \"team\": {\"name\": \"subs.testTeam\"},\n" +
-                "  \"submissionId\": \"s456\",\n" +
-                "  \"uniqueName\": \"my-sample\",\n" +
-                "  \"documentType\": \"samples\",\n" +
-                "  \"status\": \"Draft\",\n" +
-                "  \"document\": [\n" +
-                "    {\"a\": \"b\"},\n" +
-                "    \"could be anything\"\n" +
-                "  ],\n" +
-                "  \"refs\": [\n" +
-                "    {\"refType\": \"samples\", \"accession\": \"a1\", \"uniqueName\": \"un1\", \"teamName\": \"self.testTeam\", \"sourceJsonPath\": \"$.['ref']\"}\n" +
-                "  ],\n" +
-                "  \"uploadedFileRefs\": [\n" +
-                "    {\"uploadedFile\": \"test.txt\", \"sourceJsonPath\": \"$.['file']\"}\n" +
-                "  ]\n" +
-                "}";
-        return json;
+        assertThat(submittable.getId()).isEqualTo("1234");
     }
 
     private Submittable submittable() {
@@ -85,8 +60,6 @@ public class SubmittableSerializationTest {
                 uploadedFileRef()
         ));
         return s;
-
-
     }
 
     private Ref ref() {
