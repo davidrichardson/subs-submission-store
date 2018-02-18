@@ -13,7 +13,8 @@ import org.springframework.validation.Validator;
 @Slf4j
 public class BeforeDeleteSubmittableValidator implements Validator {
 
-    @NonNull private CommonSubmittableValidation commonSubmittableValidation;
+    @NonNull
+    private CommonSubmittableValidation commonSubmittableValidation;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -22,15 +23,12 @@ public class BeforeDeleteSubmittableValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        Submittable submittable = (Submittable)target;
+        Submittable submittable = (Submittable) target;
 
-        log.debug("Before delete validation of submittable {}",submittable);
-        log.info("Before delete validation of submittable {}",submittable.getId());
+        log.debug("Before delete validation of submittable {}", submittable);
+        log.info("Before delete validation of submittable {}", submittable.getId());
 
-        commonSubmittableValidation.submissionCheck(submittable,errors);
-
-
-
-        //TODO submittable is open
+        commonSubmittableValidation.submissionStatusCheck(submittable, errors);
+        commonSubmittableValidation.submittableStatusCheck(submittable, errors);
     }
 }

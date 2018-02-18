@@ -23,7 +23,6 @@ import java.util.List;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.when;
-import static org.mockito.BDDMockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SubmittableResourceProcessor.class)
@@ -57,7 +56,7 @@ public class SubmittableResourceProcessorTest {
         typeLink = new Link("/submittableTypes/TYPE_ID", "submittableType");
 
         validationResultTemplatedLink = new Link(new UriTemplate("/validationResults/search/findOneBySubmittableId{?submittableId}"), "validationResult");
-        validationResultLink = new Link("/validationResults/search/findOneBySubmittableId?submittableId=DOC_ID","validationResult");
+        validationResultLink = new Link("/validationResults/search/findOneBySubmittableId?submittableId=DOC_ID", "validationResult");
     }
 
 
@@ -73,9 +72,9 @@ public class SubmittableResourceProcessorTest {
 
         List<Link> actualLinks = resource.getLinks();
         List<Link> expectedLinks = Arrays.asList(
-               submissionLink,
-               typeLink,
-               validationResultLink
+                submissionLink,
+                typeLink,
+                validationResultLink
         );
 
         assertThat(actualLinks, equalTo(expectedLinks));

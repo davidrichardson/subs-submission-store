@@ -4,6 +4,7 @@ import com.jayway.jsonpath.InvalidJsonException;
 import com.jayway.jsonpath.JsonPath;
 import uk.ac.ebi.submission.store.errors.SubsApiErrors;
 import uk.ac.ebi.submission.store.submission.SubmissionMongoRepository;
+import uk.ac.ebi.submission.store.submittable.SubmittableOperationControl;
 import uk.ac.ebi.submission.store.submittableType.SubmittableType;
 import uk.ac.ebi.submission.store.submittableType.SubmittableTypeMongoRepository;
 import uk.ac.ebi.submission.store.submission.Submission;
@@ -33,6 +34,9 @@ public class CommonSubmittableValidation {
     private SubmissionOperationControl submissionOperationControl;
 
     @NonNull
+    private SubmittableOperationControl submittableOperationControl;
+
+    @NonNull
     private SubmittableTypeMongoRepository submittableTypeMongoRepository;
 
     public void validate(Submittable submittable, Errors errors) {
@@ -46,7 +50,7 @@ public class CommonSubmittableValidation {
 
         documentTypeChecks(submittable, errors);
 
-        submissionCheck(submittable, errors);
+        submissionStatusCheck(submittable, errors);
 
 
         log.debug("common validation of submittable complete {}", errors);
@@ -66,18 +70,28 @@ public class CommonSubmittableValidation {
         }
     }
 
-    protected void submissionCheck(Submittable submittable, Errors errors) {
+    protected void submissionStatusCheck(Submittable submittable, Errors errors) {
         if (submittable.getSubmissionId() != null){
             Optional<Submission> optionalSubmission = submissionMongoRepository.findById( submittable.getSubmissionId() );
 
             if (optionalSubmission.isPresent() && !submissionOperationControl.isChangeable(optionalSubmission.get())){
-                SubsApiErrors.resource_locked.addError(errors);
+                SubsApiErrors.resource_locked.addError(errors,"submission");
 
             }
 
             if (!optionalSubmission.isPresent()){
                 SubsApiErrors.invalid.addError(errors,"submissionId");
             }
+        }
+    }
+
+    protected void submittableStatusCheck(Submittable submittable, Errors errors){
+        if (submittable.getStatus() != null){
+
+            if (!submittableOperationControl.isChangeable(submittable)){
+                SubsApiErrors.resource_locked.addError(errors);
+            }
+
         }
     }
 
