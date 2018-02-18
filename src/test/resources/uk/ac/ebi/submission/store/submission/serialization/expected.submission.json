@@ -1,0 +1,20 @@
+{
+  "id": "5556",
+  "createdBy": "alice",
+  "lastModifiedBy": "bob",
+  "version": 1,
+  "submitter": {
+    "email": "alice@thing.ac.uk"
+  },
+  "team": {
+    "name": "subs.testTeam"
+  },
+  "title": "A wonderful test submission",
+  "status": "Draft",
+  "uiData": [
+    {
+      "a": "b"
+    },
+    "could be anything"
+  ]
+}

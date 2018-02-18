@@ -1,5 +1,7 @@
 package uk.ac.ebi.submission.store.submission;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -33,5 +35,13 @@ public class Submission implements Identifiable<String> {
 
     private String title;
     private String status;
+
+    @JsonRawValue
+    private String uiData;
+
+    public void setUiData(JsonNode json){
+        this.uiData = json.toString();
+    }
+
 
 }
