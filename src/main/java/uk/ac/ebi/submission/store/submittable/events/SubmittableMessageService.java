@@ -1,5 +1,6 @@
 package uk.ac.ebi.submission.store.submittable.events;
 
+import uk.ac.ebi.submission.store.common.Exchange;
 import uk.ac.ebi.submission.store.common.CrudEvent;
 import uk.ac.ebi.submission.store.submittable.Submittable;
 import lombok.NonNull;
@@ -17,7 +18,7 @@ public class SubmittableMessageService {
     private RabbitMessagingTemplate rabbitMessagingTemplate;
 
 
-    private String exchangeName = "usi-2"; //TODO move elsewhere
+    private String exchangeName = Exchange.EXCHANGE_NAME;
 
     public void notifyCrudEvent(Submittable submittable, CrudEvent event) {
         log.debug("notify {} for {}",event,submittable);
