@@ -1,5 +1,6 @@
 package uk.ac.ebi.submission.store.root;
 
+import uk.ac.ebi.submission.store.common.ResourceLinkHelper;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.submittable.Submittable;
 import uk.ac.ebi.submission.store.submittableType.SubmittableType;
@@ -53,9 +54,7 @@ public class RootResourceProcessor implements ResourceProcessor<RepositoryLinksR
 
         log.debug("processed repository links resource {}", resource);
 
-        resource.getLinks().sort(
-                Comparator.comparing(l -> l.getRel())
-        );
+        ResourceLinkHelper.sortResourceLinksAlphabeticallyByRelName(resource);
 
         return resource;
     }

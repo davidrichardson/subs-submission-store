@@ -47,6 +47,7 @@ public class Submittable implements Identifiable<String> {
     private String uniqueName;
 
     private String documentType;
+    private String submittableTypeId;
 
     private String status;
 
