@@ -65,7 +65,7 @@ public class SubmittableResourceProcessor implements ResourceProcessor<Resource<
 
     private void addSubmissionLink(Resource<Submittable> resource, Submittable submittable) {
         if (submittable.getSubmissionId() != null) {
-            Link submissionLink = repositoryEntityLinks.linkToSingleResource(Submission.class, submittable.getId());
+            Link submissionLink = repositoryEntityLinks.linkToSingleResource(Submission.class, submittable.getSubmissionId());
             resource.add(submissionLink);
         }
     }
