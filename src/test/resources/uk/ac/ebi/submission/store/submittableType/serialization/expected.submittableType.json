@@ -1,0 +1,33 @@
+{
+  "typeName": "samples",
+  "description": "Samples of biological material",
+  "archiveName": "BioSamples",
+  "exampleDocument": {
+    "key": "value"
+  },
+  "validationRequirements": {
+    "schema": {
+      "key": "value"
+    },
+    "expectedValidators": {
+      "requiredValidators": [
+        "taxon"
+      ],
+      "informationalValidators": [
+        "enaSample",
+        "arrayExpressSample"
+      ]
+    }
+  },
+  "displayRequirements": {
+    "uiSchema": {
+      "key": "value"
+    },
+    "requiredTypes": ["something or other"]
+  },
+  "id": "1234",
+  "createdBy": "alice",
+  "lastModifiedBy": "bob",
+  "version": 10
+}
+

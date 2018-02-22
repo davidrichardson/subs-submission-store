@@ -14,6 +14,36 @@ import java.time.Instant;
 @Data
 public class SubmittableType implements Identifiable<String> {
 
+    /**
+     * plural name for this type. e.g. samples
+     */
+    @Indexed(unique = true, background = true)
+    private String typeName;
+
+    /**
+     * Description of what this type is for, to be presented to users
+     */
+    private String description;
+
+    /**
+     * Example document of this type, that we can present to users to help them understand how to use this type
+     */
+    @JsonRawValue
+    private String exampleDocument;
+
+    public void setExampleDocument(JsonNode json){
+        this.exampleDocument = json.toString();
+    }
+
+
+    /**
+     * name of the archive that accepts this type
+     */
+    private String archiveName;
+
+    private ValidationRequirements validationRequirements;
+    private DisplayRequirements displayRequirements;
+
     @Id
     private String id;
 
@@ -28,18 +58,5 @@ public class SubmittableType implements Identifiable<String> {
     @Version
     private Long version;
 
-    @Indexed(unique = true)
-    private String typeName;
-
-    @JsonRawValue
-    private String schema;
-
-    public void setSchema(JsonNode json) {
-        this.schema = json.toString();
-    }
-
-    @JsonRawValue
-    private String uiSchema;
-    public void setUiSchema(JsonNode json) { this.uiSchema = json.toString(); }
 
 }
