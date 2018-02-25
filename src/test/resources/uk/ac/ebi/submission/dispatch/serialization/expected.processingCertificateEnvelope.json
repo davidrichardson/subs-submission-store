@@ -1,0 +1,17 @@
+{
+  "submissionId": "s12345",
+  "processingCertificates": [
+    {
+      "submittableId": "dABC",
+      "archive": "MY-ARCHIVE" ,
+      "processingStatus": "Completed",
+      "accession": "acc789"
+    },
+    {
+      "submittableId": "dDEF",
+      "archive": "MY-ARCHIVE" ,
+      "processingStatus": "Errored",
+      "message": "broken"
+    }
+  ]
+}

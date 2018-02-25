@@ -1,0 +1,89 @@
+{
+  "submission": {
+    "id": "5556",
+    "submitter": {
+      "email": "alice@thing.ac.uk"
+    },
+    "team": {
+      "name": "subs.testTeam"
+    },
+    "title": "A wonderful test submission",
+    "status": "Submitted"
+  },
+  "submittedItemsByDocumentType": {
+    "assays": [
+      {
+        "id": "a1",
+        "uniqueName": "anAssay",
+        "documentType": "assays",
+        "submitter": {
+          "email": "alice@thing.ac.uk"
+        },
+        "team": {
+          "name": "subs.testTeam"
+        },
+        "status": "a status",
+        "document": {
+          "key": "value"
+        }
+      }
+    ],
+    "studies": [
+      {
+        "id": "s1",
+        "uniqueName": "aStudy",
+        "documentType": "studies",
+        "submitter": {
+          "email": "alice@thing.ac.uk"
+        },
+        "team": {
+          "name": "subs.testTeam"
+        },
+        "status": "a status",
+        "document": {
+          "key": "value"
+        }
+      }
+    ]
+  },
+  "referencedItemsByDocumentType": {
+    "projects": [
+      {
+        "id": "p1",
+        "uniqueName": "aProject",
+        "documentType": "projects",
+        "submitter": {
+          "email": "alice@thing.ac.uk"
+        },
+        "team": {
+          "name": "subs.testTeam"
+        },
+        "status": "a status",
+        "document": {
+          "key": "value"
+        }
+      }
+    ],
+    "samples": [
+      {
+        "id": "sa1",
+        "uniqueName": "aSample",
+        "documentType": "samples",
+        "submitter": {
+          "email": "alice@thing.ac.uk"
+        },
+        "team": {
+          "name": "subs.testTeam"
+        },
+        "status": "a status",
+        "document": {
+          "key": "value"
+        }
+      }
+    ]
+  }
+}
+
+
+
+
