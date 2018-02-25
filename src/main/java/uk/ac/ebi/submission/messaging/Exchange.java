@@ -1,4 +1,4 @@
-package uk.ac.ebi.submission.store.common;
+package uk.ac.ebi.submission.messaging;
 
 public class Exchange {
 

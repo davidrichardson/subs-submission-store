@@ -1,6 +1,6 @@
 package uk.ac.ebi.submission.store.submittable.events;
 
-import uk.ac.ebi.submission.store.common.Exchange;
+import uk.ac.ebi.submission.messaging.Exchange;
 import uk.ac.ebi.submission.store.common.CrudEvent;
 import uk.ac.ebi.submission.store.submittable.Submittable;
 import lombok.NonNull;

@@ -8,10 +8,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.ac.ebi.submission.store.JsonHelper;
 import uk.ac.ebi.submission.store.common.CrudEvent;
-import uk.ac.ebi.submission.store.common.Exchange;
+import uk.ac.ebi.submission.messaging.Exchange;
 import uk.ac.ebi.submission.store.submission.Submission;
-import uk.ac.ebi.submission.store.submittable.Submittable;
-import uk.ac.ebi.submission.store.submittable.events.SubmittableMessageService;
 
 import static org.mockito.BDDMockito.verify;
 
