@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.0.RC1'
+		springBootVersion = '2.0.0.RC2'
 	}
 	repositories {
 		mavenCentral()
@@ -36,8 +36,12 @@ dependencies {
 	compile('org.springframework.data:spring-data-rest-hal-browser')
 	compile('org.springframework.boot:spring-boot-starter-hateoas')
 	//compile('org.springframework.boot:spring-boot-starter-security')
-	compile 'com.jayway.jsonpath:json-path:2.3.0'
+	compile('com.jayway.jsonpath:json-path:2.3.0')
+	compile('com.fasterxml.jackson.module:jackson-module-afterburner:2.7.1')
+	compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
+
 	compileOnly('org.projectlombok:lombok')
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 	testCompile('org.springframework.security:spring-security-test')
