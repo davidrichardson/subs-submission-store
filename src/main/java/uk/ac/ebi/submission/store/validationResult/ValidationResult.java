@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,12 @@ public class ValidationResult {
     private String submissionId;
 
     private String submittableVersion;
+
+    private boolean passedValidation;
+
+    private Collection<SingleValidationResult> results;
+
+    private Map<String,Boolean> resultsReceived = new HashMap<>();
 
     private Map<String, List<SingleValidationResult>> expectedResults = new HashMap<>();
 
