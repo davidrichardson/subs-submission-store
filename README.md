@@ -27,6 +27,7 @@ playing around with an alternate architecture for subs repository and API
 * Validation system remains intact, with some changes to how versions are tracked and results recorded
 * Dispatch system remains intact, but switches to generalised model, less specific envelope structure
 * Use a wizard to help users pick 'submission plans' - sets of types to use in the API
+* Checklists as a secondary source of schema to apply for validation
   
   
 

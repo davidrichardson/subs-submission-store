@@ -1,6 +1,5 @@
 package uk.ac.ebi.submission.store.submittable;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
@@ -18,7 +17,6 @@ import java.util.Collection;
 
 @Document
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
 @CompoundIndexes({
         @CompoundIndex(name = "unq_subId_docType_uniqueName", def = "{'submissionId': 1, 'documentType': 1, 'uniqueName': 1}", unique = true, background = true),
         @CompoundIndex(name = "teamName_docType_uniqueName", def = "{'team.name': 1, 'documentType': 1, 'uniqueName': 1}", unique = false, background = true)
@@ -61,6 +59,8 @@ public class Submittable implements Identifiable<String> {
 
     private Collection<Ref> refs;
     private Collection<UploadedFileRef> uploadedFileRefs;
+
+    private Collection<String> checklists;
 
 
 }
