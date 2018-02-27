@@ -34,7 +34,7 @@ public class ValidationResult {
     @Version
     private Long version;
 
-    @Indexed(unique = true)
+    @Indexed(unique = true, background = true)
     private String submittableId;
 
     @Indexed
