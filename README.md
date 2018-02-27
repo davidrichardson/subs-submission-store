@@ -26,6 +26,7 @@ playing around with an alternate architecture for subs repository and API
   * work to do translating UI form to spreadsheet
 * Validation system remains intact, with some changes to how versions are tracked and results recorded
 * Dispatch system remains intact, but switches to generalised model, less specific envelope structure
+* Use a wizard to help users pick 'submission plans' - sets of types to use in the API
   
   
 
