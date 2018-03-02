@@ -28,8 +28,8 @@ playing around with an alternate architecture for subs repository and API
 * Dispatch system remains intact, but switches to generalised model, less specific envelope structure
 * Use a wizard to help users pick 'submission plans' - sets of types to use in the API
 * Checklists as a secondary source of schema to apply for validation
-  
-  
+* Embed available actions into resources as _actions, show if something is updateable, available status changes  
+* Stuff audit information into _audit, don't show it as a 1st class part of the resource  
 
 
 
