@@ -36,8 +36,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-hateoas')
 	//compile('org.springframework.boot:spring-boot-starter-security')
 	compile('com.jayway.jsonpath:json-path:2.3.0')
-	compile('com.fasterxml.jackson.module:jackson-module-afterburner:2.7.1')
-	compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
+	compile('com.fasterxml.jackson.module:jackson-module-afterburner:2.9.4')
+	compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.4')
 
 	compileOnly('org.projectlombok:lombok')
 
