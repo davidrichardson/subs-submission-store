@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.Identifiable;
+import uk.ac.ebi.submission.store.common.model.Audited;
 import uk.ac.ebi.submission.store.common.model.Submitter;
 import uk.ac.ebi.submission.store.common.model.Team;
 
@@ -21,7 +22,7 @@ import java.util.Collection;
         @CompoundIndex(name = "unq_subId_docType_uniqueName", def = "{'submissionId': 1, 'documentType': 1, 'uniqueName': 1}", unique = true, background = true),
         @CompoundIndex(name = "teamName_docType_uniqueName", def = "{'team.name': 1, 'documentType': 1, 'uniqueName': 1}", unique = false, background = true)
 })
-public class Submittable implements Identifiable<String> {
+public class Submittable implements Identifiable<String>, Audited {
 
     @Id
     private String id;

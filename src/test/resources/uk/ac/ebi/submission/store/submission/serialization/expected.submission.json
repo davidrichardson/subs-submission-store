@@ -11,7 +11,7 @@
   },
   "title": "A wonderful test submission",
   "status": "Draft",
-  "uiData": [
+  "_uiData": [
     {
       "a": "b"
     },

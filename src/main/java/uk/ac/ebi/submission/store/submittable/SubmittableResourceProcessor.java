@@ -23,13 +23,29 @@ import java.util.Map;
 public class SubmittableResourceProcessor implements ResourceProcessor<Resource<Submittable>> {
 
     @NonNull
+    private SubmittableOperationControl submittableOperationControl;
+
+    @NonNull
     private RepositoryEntityLinks repositoryEntityLinks;
 
     @Override
-    public Resource<Submittable> process(Resource<Submittable> resource) {
+    public Resource<Submittable> process(Resource<Submittable> rawSubmittableResource) {
 
-        log.debug("processing resource {}", resource);
+        log.debug("Processing resource {}", rawSubmittableResource);
 
+        SubmittableResource resource = buildSubmittableResource(rawSubmittableResource);
+
+        addLinks(resource);
+
+        ResourceLinkHelper.sortResourceLinksAlphabeticallyByRelName(resource);
+
+        log.debug("Converted resource to {}", resource);
+
+
+        return resource;
+    }
+
+    private void addLinks(SubmittableResource resource) {
         Submittable submittable = resource.getContent();
 
         addSubmissionLink(resource, submittable);
@@ -37,9 +53,15 @@ public class SubmittableResourceProcessor implements ResourceProcessor<Resource<
         addSubmittableTypeLink(resource, submittable);
 
         addValidationResultLink(resource, submittable);
+    }
 
+    private SubmittableResource buildSubmittableResource(Resource<Submittable> rawSubmittableResource) {
+        SubmittableResource resource = new SubmittableResource(rawSubmittableResource);
 
-        ResourceLinkHelper.sortResourceLinksAlphabeticallyByRelName(resource);
+        if (submittableOperationControl.isChangeable(resource.getContent())) {
+            resource.getActions().setDeleteable(true);
+            resource.getActions().setUpdateable(true);
+        }
 
         return resource;
     }
