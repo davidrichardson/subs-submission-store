@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.*;
+import org.springframework.stereotype.Component;
 import uk.ac.ebi.submission.store.common.CrudEvent;
 import uk.ac.ebi.submission.store.submittable.Submittable;
 import uk.ac.ebi.submission.store.submittable.extractors.FileRefExtractor;
@@ -11,6 +12,7 @@ import uk.ac.ebi.submission.store.submittable.extractors.RefExtractor;
 
 import java.util.UUID;
 
+@Component
 @RepositoryEventHandler
 @RequiredArgsConstructor
 @Slf4j
