@@ -24,6 +24,7 @@ sourceCompatibility = 1.8
 repositories {
 	mavenCentral()
 	maven { url "https://repo.spring.io/release" }
+	maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
 
 
@@ -34,10 +35,11 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
 	compile('org.springframework.data:spring-data-rest-hal-browser')
 	compile('org.springframework.boot:spring-boot-starter-hateoas')
-	//compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('com.jayway.jsonpath:json-path:2.3.0')
 	compile('com.fasterxml.jackson.module:jackson-module-afterburner:2.9.4')
 	compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.4')
+	compile('uk.ac.ebi.tsc.aap.client:security:1.0.1-SNAPSHOT')
 
 	compileOnly('org.projectlombok:lombok')
 
