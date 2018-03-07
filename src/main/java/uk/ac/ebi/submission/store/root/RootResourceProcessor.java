@@ -43,9 +43,9 @@ public class RootResourceProcessor implements ResourceProcessor<RepositoryLinksR
 
         for (Class clazz : exposedClasses) {
             log.debug("adding links for {}",clazz);
-            resource.add(
-                    templatedSingleResourceLink(clazz)
-            );
+         //   resource.add(
+         //           templatedSingleResourceLink(clazz)
+         //   );
 
         }
 

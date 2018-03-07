@@ -66,6 +66,13 @@ public class SubsAAPWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/health/summary").permitAll()
                 .antMatchers(HttpMethod.GET,"/uiSupportItems/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/templates/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/submissions").permitAll()
+                .antMatchers(HttpMethod.GET,"/documents").permitAll()
+                .antMatchers(HttpMethod.GET,"/validationResults").permitAll()
+                .antMatchers(HttpMethod.GET,"/submissionPlanWizards/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/checklists/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/documentTypes/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/*/search").permitAll()
                 .mvcMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 .anyRequest().authenticated();
 

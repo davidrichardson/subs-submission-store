@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import uk.ac.ebi.submission.store.common.model.Team;
 
 import java.time.Instant;
 import java.util.Collection;
@@ -39,6 +40,8 @@ public class ValidationResult {
 
     @Indexed
     private String submissionId;
+
+    private Team team;
 
     private String submittableVersion;
 
