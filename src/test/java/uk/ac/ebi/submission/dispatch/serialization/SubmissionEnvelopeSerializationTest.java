@@ -11,8 +11,9 @@ import uk.ac.ebi.submission.dispatch.model.SubmissionEnvelope;
 import uk.ac.ebi.submission.store.JsonHelper;
 import uk.ac.ebi.submission.store.common.model.Submitter;
 import uk.ac.ebi.submission.store.common.model.Team;
+import uk.ac.ebi.submission.store.document.DocumentStatusEnum;
 import uk.ac.ebi.submission.store.submission.Submission;
-import uk.ac.ebi.submission.store.submittable.Submittable;
+import uk.ac.ebi.submission.store.document.Document;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,9 +33,9 @@ public class SubmissionEnvelopeSerializationTest {
     @Test
     public void testDeserialize() throws Exception {
         ObjectContent<SubmissionEnvelope> objectContent = this.json.read("expected.submissionEnvelope.json");
-        SubmissionEnvelope processingCertificateEnvelope = objectContent.getObject();
+        SubmissionEnvelope submissionEnvelope = objectContent.getObject();
 
-        assertThat(processingCertificateEnvelope)
+        assertThat(submissionEnvelope)
                 .isEqualTo(submissionEnvelope());
 
     }
@@ -44,25 +45,25 @@ public class SubmissionEnvelopeSerializationTest {
 
         se.setSubmission(submission());
 
-        se.addSubmittedItem(submittable("a1","anAssay","assays"));
-        se.addSubmittedItem(submittable("s1","aStudy","studies"));
+        se.addSubmittedItem(document("a1","anAssay","assays"));
+        se.addSubmittedItem(document("s1","aStudy","studies"));
 
-        se.addReferencedItem(submittable("p1","aProject","projects"));
-        se.addReferencedItem(submittable("sa1","aSample","samples"));
+        se.addReferencedItem(document("p1","aProject","projects"));
+        se.addReferencedItem(document("sa1","aSample","samples"));
 
         return se;
     }
 
-    private Submittable submittable(String id, String uniqueName, String documentType) {
-        Submittable submittable = new Submittable();
-        submittable.setId(id);
-        submittable.setSubmitter(Submitter.of("alice@thing.ac.uk", null));
-        submittable.setTeam(Team.of("subs.testTeam"));
-        submittable.setUniqueName(uniqueName);
-        submittable.setDocumentType(documentType);
-        submittable.setStatus("a status");
-        submittable.setDocument(JsonHelper.stringToJsonNode("{\"key\": \"value\"}"));
-        return submittable;
+    private Document document(String id, String uniqueName, String documentType) {
+        Document document = new Document();
+        document.setId(id);
+        document.setSubmitter(Submitter.of("alice@thing.ac.uk", null));
+        document.setTeam(Team.of("subs.testTeam"));
+        document.setUniqueName(uniqueName);
+        document.setDocumentType(documentType);
+        document.setStatus(DocumentStatusEnum.Completed);
+        document.setContent(JsonHelper.stringToJsonNode("{\"key\": \"value\"}"));
+        return document;
     }
 
     private Submission submission() {

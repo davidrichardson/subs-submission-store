@@ -2,8 +2,8 @@ package uk.ac.ebi.submission.store.root;
 
 import uk.ac.ebi.submission.store.common.ResourceLinkHelper;
 import uk.ac.ebi.submission.store.submission.Submission;
-import uk.ac.ebi.submission.store.submittable.Submittable;
-import uk.ac.ebi.submission.store.submittableType.SubmittableType;
+import uk.ac.ebi.submission.store.document.Document;
+import uk.ac.ebi.submission.store.documentType.DocumentType;
 import uk.ac.ebi.submission.store.validationResult.ValidationResult;
 import lombok.Data;
 import lombok.NonNull;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -36,8 +35,8 @@ public class RootResourceProcessor implements ResourceProcessor<RepositoryLinksR
 
         Class[] exposedClasses = new Class[]{
                 Submission.class,
-                Submittable.class,
-                SubmittableType.class,
+                Document.class,
+                DocumentType.class,
                 ValidationResult.class
         };
 
@@ -47,9 +46,7 @@ public class RootResourceProcessor implements ResourceProcessor<RepositoryLinksR
             resource.add(
                     templatedSingleResourceLink(clazz)
             );
-            resource.add(
-                    searchResourceLink(clazz)
-            );
+
         }
 
         log.debug("processed repository links resource {}", resource);

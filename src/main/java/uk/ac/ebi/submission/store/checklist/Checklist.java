@@ -15,8 +15,8 @@ import java.util.Set;
 @Data
 @Document
 @CompoundIndexes({
-        @CompoundIndex(name = "submittableType_tags", def = "{'submittableType': 1, 'tags': 1}", background = true),
-        @CompoundIndex(name = "submittableType_name", def = "{'submittableType': 1, 'name': 1}", unique = true, background = true)
+        @CompoundIndex(name = "submittableType_tags", def = "{'documentType': 1, 'tags': 1}", background = true),
+        @CompoundIndex(name = "submittableType_name", def = "{'documentType': 1, 'name': 1}", unique = true, background = true)
 })
 public class Checklist {
 
@@ -49,7 +49,7 @@ public class Checklist {
     private Set<String> tags = new HashSet<>();
 
     /**
-     * Submittable type that this checklist is relevant to
+     * Document type that this checklist is relevant to
      */
     private String submittableType;
 
