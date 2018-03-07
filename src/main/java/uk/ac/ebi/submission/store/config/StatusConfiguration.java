@@ -19,7 +19,7 @@ public class StatusConfiguration {
     }
 
     @Bean
-    public Map<String, StatusDescription> processingStatusDescriptionMap() {
+    public Map<String, StatusDescription> documentStatusDescriptionMap() {
         return statusListToMapKeyedOnName(processingStatuses());
     }
 

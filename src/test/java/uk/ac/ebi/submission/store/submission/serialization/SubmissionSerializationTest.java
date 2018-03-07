@@ -11,6 +11,7 @@ import uk.ac.ebi.submission.store.JsonHelper;
 import uk.ac.ebi.submission.store.common.model.Submitter;
 import uk.ac.ebi.submission.store.common.model.Team;
 import uk.ac.ebi.submission.store.submission.Submission;
+import uk.ac.ebi.submission.store.submission.SubmissionStatusEnum;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -46,7 +47,7 @@ public class SubmissionSerializationTest {
         s.setSubmitter(Submitter.of("alice@thing.ac.uk", null));
         s.setTeam(Team.of("subs.testTeam"));
         s.setTitle("A wonderful test submission");
-        s.setStatus("Draft");
+        s.setStatus(SubmissionStatusEnum.Draft);
         s.setUiData(JsonHelper.stringToJsonNode("[{\"a\": \"b\"},\"could be anything\"]"));
         return s;
     }

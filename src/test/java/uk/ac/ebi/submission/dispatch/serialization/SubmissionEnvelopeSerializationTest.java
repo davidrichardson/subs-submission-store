@@ -14,6 +14,7 @@ import uk.ac.ebi.submission.store.common.model.Team;
 import uk.ac.ebi.submission.store.document.DocumentStatusEnum;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.document.Document;
+import uk.ac.ebi.submission.store.submission.SubmissionStatusEnum;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -72,7 +73,7 @@ public class SubmissionEnvelopeSerializationTest {
         submission.setSubmitter(Submitter.of("alice@thing.ac.uk", null));
         submission.setTeam(Team.of("subs.testTeam"));
         submission.setTitle("A wonderful test submission");
-        submission.setStatus("Submitted");
+        submission.setStatus(SubmissionStatusEnum.Submitted);
         return submission;
     }
 }
