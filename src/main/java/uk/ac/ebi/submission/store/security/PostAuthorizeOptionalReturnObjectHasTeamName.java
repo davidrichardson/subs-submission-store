@@ -6,6 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@PostAuthorize("!returnObject.isPresent or hasAnyRole(@roleLookup.adminRole(),returnObject.get.team.name)")
+@PostAuthorize("!returnObject.present or hasAnyRole(@roleLookup.adminRole(),returnObject.get().team.name)")
 public @interface PostAuthorizeOptionalReturnObjectHasTeamName {
 }
