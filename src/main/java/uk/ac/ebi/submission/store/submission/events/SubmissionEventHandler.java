@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import uk.ac.ebi.submission.store.common.CrudEvent;
 import uk.ac.ebi.submission.store.submission.Submission;
+import uk.ac.ebi.submission.store.submission.SubmissionMongoRepository;
+import uk.ac.ebi.submission.store.submission.SubmissionStatusEnum;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -20,10 +23,13 @@ public class SubmissionEventHandler {
     @NonNull
     private SubmissionMessageService submissionMessageService;
 
+    @NonNull
+    private SubmissionMongoRepository submissionMongoRepository;
+
     @HandleBeforeCreate
     public void handleBeforeCreate(Submission submission){
         submission.setId(UUID.randomUUID().toString());
-
+        submission.setStatus(SubmissionStatusEnum.Draft);
         log.debug("handle before create {}",submission);
         log.info("handle before create submission {}",submission.getId());
     }
@@ -42,6 +48,14 @@ public class SubmissionEventHandler {
         log.info("handle after create submission {}", submission.getId());
 
         submissionMessageService.notifyCrudEvent(submission, CrudEvent.deleted);
+    }
+
+    @HandleBeforeSave
+    public void handleBeforeSave(Submission submission){
+        Optional<Submission> storedVersion = submissionMongoRepository.findById(submission.getId());
+        if (storedVersion.isPresent()){
+            submission.setTeam(submission.getTeam());
+        }
     }
 
     @HandleAfterSave

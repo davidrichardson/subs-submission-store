@@ -9,14 +9,13 @@ import uk.ac.ebi.submission.store.security.PostAuthorizeOptionalReturnObjectHasT
 import uk.ac.ebi.submission.store.security.PreAuthorizeDocumentTeamName;
 import uk.ac.ebi.submission.store.security.PreAuthorizeSubmissionIdTeamName;
 
-import java.util.List;
 import java.util.Optional;
 
 
 public interface ValidationResultMongoRepository extends MongoRepository<ValidationResult, String>, ValidationResultRepositoryCustom {
 
-    @RestResource(exported = true, rel = ValidationResultRelNames.BY_SUBMITTABLE_ID)
-    ValidationResult findOneBySubmittableId(@Param("submittableId") String submittableId);
+    @RestResource(exported = true, rel = ValidationResultRelNames.BY_DOCUMENT_ID)
+    ValidationResult findOneByDocumentId(@Param("documentId") String documentId);
 
 
     @RestResource(exported = true)

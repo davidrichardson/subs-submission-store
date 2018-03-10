@@ -9,6 +9,7 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceProcessor;
 import org.springframework.stereotype.Component;
 import uk.ac.ebi.submission.store.common.ResourceLinkHelper;
+import uk.ac.ebi.submission.store.documentType.DocumentTypeSearchRelNames;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.documentType.DocumentType;
 import uk.ac.ebi.submission.store.validationResult.ValidationResult;
@@ -69,7 +70,7 @@ public class DocumentResourceProcessor implements ResourceProcessor<Resource<Doc
     private void addValidationResultLink(Resource<Document> resource, Document document) {
         Link unexpandedValidationResultLink = repositoryEntityLinks.linkToSearchResource(
                 ValidationResult.class,
-                ValidationResultRelNames.BY_SUBMITTABLE_ID
+                ValidationResultRelNames.BY_DOCUMENT_ID
         );
         Map<String, String> expansionParams = new HashMap<>();
         expansionParams.put("submittableId", document.getId());
@@ -79,8 +80,17 @@ public class DocumentResourceProcessor implements ResourceProcessor<Resource<Doc
     }
 
     private void addSubmittableTypeLink(Resource<Document> resource, Document document) {
-        if (document.getSubmittableTypeId() != null) {
-            Link typeLink = repositoryEntityLinks.linkToSingleResource(DocumentType.class, document.getSubmittableTypeId());
+        if (document.getDocumentType() != null) {
+            Link typeLink = repositoryEntityLinks.linkToSearchResource(
+                    DocumentType.class,
+                    DocumentTypeSearchRelNames.FIND_ONE_BY_NAME
+            );
+
+            Map<String,String> expansionParams = new HashMap<>();
+            expansionParams.put("typeName",document.getDocumentType());
+
+            typeLink = typeLink.expand(expansionParams);
+
             resource.add(typeLink);
         }
     }

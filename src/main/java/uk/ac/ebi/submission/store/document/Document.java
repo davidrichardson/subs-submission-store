@@ -43,9 +43,9 @@ public class Document implements Identifiable<String>, Audited {
 
     private String submissionId;
     private String uniqueName;
+    private String accession;
 
     private String documentType;
-    private String submittableTypeId;
 
     private DocumentStatusEnum status;
 

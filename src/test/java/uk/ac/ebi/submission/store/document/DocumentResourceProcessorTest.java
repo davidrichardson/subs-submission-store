@@ -14,8 +14,6 @@ import org.springframework.hateoas.UriTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.documentType.DocumentType;
-import uk.ac.ebi.submission.store.submission.SubmissionMongoRepository;
-import uk.ac.ebi.submission.store.submission.SubmissionOperationControl;
 import uk.ac.ebi.submission.store.validationResult.ValidationResult;
 import uk.ac.ebi.submission.store.validationResult.ValidationResultRelNames;
 
@@ -53,7 +51,7 @@ public class DocumentResourceProcessorTest {
     public void buildUp() {
         document = new Document();
         document.setId("DOC_ID");
-        document.setSubmittableTypeId("TYPE_ID");
+        document.setDocumentType("TYPE_ID");
         document.setSubmissionId("SUB_ID");
 
         resource = new Resource<>(document);
@@ -71,7 +69,7 @@ public class DocumentResourceProcessorTest {
 
         when(repositoryEntityLinks.linkToSingleResource(Submission.class, "SUB_ID")).thenReturn(submissionLink);
         when(repositoryEntityLinks.linkToSingleResource(DocumentType.class, "TYPE_ID")).thenReturn(typeLink);
-        when(repositoryEntityLinks.linkToSearchResource(ValidationResult.class, ValidationResultRelNames.BY_SUBMITTABLE_ID)).thenReturn(validationResultTemplatedLink);
+        when(repositoryEntityLinks.linkToSearchResource(ValidationResult.class, ValidationResultRelNames.BY_DOCUMENT_ID)).thenReturn(validationResultTemplatedLink);
 
         when(documentOperationControl.isChangeable(document)).thenReturn(true);
 

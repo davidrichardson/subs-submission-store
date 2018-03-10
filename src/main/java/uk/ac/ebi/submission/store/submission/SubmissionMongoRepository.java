@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.method.P;
+import uk.ac.ebi.submission.store.security.PostAuthorizeOptionalReturnObjectHasTeamName;
 import uk.ac.ebi.submission.store.security.PostAuthorizeReturnObjectHasTeamName;
 import uk.ac.ebi.submission.store.security.PreAuthorizeParamTeamName;
 import uk.ac.ebi.submission.store.security.PreAuthorizeSubmissionTeamName;
@@ -19,12 +20,12 @@ public interface SubmissionMongoRepository extends MongoRepository<Submission,St
 
     // exported as GET /things/:id
     @RestResource(exported = true)
-    @PostAuthorizeReturnObjectHasTeamName
+    @PostAuthorizeOptionalReturnObjectHasTeamName
     Optional<Submission> findById(String id);
 
     // exported as GET /things
     @Override
-    @RestResource(exported = true) //could export this and expose rels to admin users
+    @RestResource(exported = true)
     Page<Submission> findAll(Pageable pageable);
 
     // Prevents PUT /things and PATCH /things/:id
@@ -45,7 +46,7 @@ public interface SubmissionMongoRepository extends MongoRepository<Submission,St
     @PreAuthorizeSubmissionTeamName
     void delete(@P("entity") Submission entity);
 
-    @RestResource(exported = true, rel = "by-team", path = "by-team")
+    @RestResource(exported = true, rel = SubmissionSearchRelNames.TEAM_NAME)
     @PreAuthorizeParamTeamName
     Page<Submission> findByTeamName(@Param(value = "teamName") String teamName, Pageable pageable);
 
