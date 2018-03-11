@@ -4,7 +4,7 @@ import com.jayway.jsonpath.InvalidJsonException;
 import com.jayway.jsonpath.JsonPath;
 import uk.ac.ebi.submission.store.document.Document;
 import uk.ac.ebi.submission.store.errors.SubsApiErrors;
-import uk.ac.ebi.submission.store.submission.SubmissionMongoRepository;
+import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 import uk.ac.ebi.submission.store.document.DocumentOperationControl;
 import uk.ac.ebi.submission.store.documentType.DocumentType;
 import uk.ac.ebi.submission.store.documentType.DocumentTypeMongoRepository;
@@ -60,7 +60,7 @@ public class CommonSubmittableValidation {
         SubsApiErrors.rejectIfEmptyOrWhitespace(errors, "documentType");
 
         if (document.getDocumentType() != null){
-            Optional<DocumentType> submittableTypeOptional = documentTypeMongoRepository.findByTypeName(
+            Optional<DocumentType> submittableTypeOptional = documentTypeMongoRepository.findOneByTypeName(
                     document.getDocumentType()
             );
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import uk.ac.ebi.submission.store.document.Document;
 import uk.ac.ebi.submission.store.document.DocumentMongoRepository;
 import uk.ac.ebi.submission.store.submission.Submission;
-import uk.ac.ebi.submission.store.submission.SubmissionMongoRepository;
+import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 
 import java.util.Optional;
 

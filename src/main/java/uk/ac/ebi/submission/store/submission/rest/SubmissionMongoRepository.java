@@ -1,4 +1,4 @@
-package uk.ac.ebi.submission.store.submission;
+package uk.ac.ebi.submission.store.submission.rest;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,14 +8,14 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.method.P;
 import uk.ac.ebi.submission.store.security.PostAuthorizeOptionalReturnObjectHasTeamName;
-import uk.ac.ebi.submission.store.security.PostAuthorizeReturnObjectHasTeamName;
 import uk.ac.ebi.submission.store.security.PreAuthorizeParamTeamName;
 import uk.ac.ebi.submission.store.security.PreAuthorizeSubmissionTeamName;
+import uk.ac.ebi.submission.store.submission.Submission;
 
 import java.util.List;
 import java.util.Optional;
 
-@RepositoryRestResource
+@RepositoryRestResource(exported = true)
 public interface SubmissionMongoRepository extends MongoRepository<Submission,String>{
 
     // exported as GET /things/:id
@@ -49,6 +49,11 @@ public interface SubmissionMongoRepository extends MongoRepository<Submission,St
     @RestResource(exported = true, rel = SubmissionSearchRelNames.TEAM_NAME)
     @PreAuthorizeParamTeamName
     Page<Submission> findByTeamName(@Param(value = "teamName") String teamName, Pageable pageable);
+
+    @RestResource(exported = false)
+    Page<Submission> findByTeamNameInOrderByCreatedByDesc(List<String> teamNames, Pageable pageable);
+
+
 
 
 

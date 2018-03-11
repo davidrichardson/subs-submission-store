@@ -1,4 +1,4 @@
-package uk.ac.ebi.submission.store.submission;
+package uk.ac.ebi.submission.store.submission.rest;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.hateoas.Resource;
 import uk.ac.ebi.submission.store.common.model.AuditDetails;
+import uk.ac.ebi.submission.store.submission.Submission;
 
 import java.util.Set;
 import java.util.TreeSet;

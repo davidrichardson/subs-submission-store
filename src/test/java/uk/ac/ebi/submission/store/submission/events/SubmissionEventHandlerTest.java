@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import uk.ac.ebi.submission.store.JsonHelper;
 import uk.ac.ebi.submission.store.common.CrudEvent;
 import uk.ac.ebi.submission.store.submission.Submission;
+import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.verify;
@@ -27,6 +28,9 @@ public class SubmissionEventHandlerTest {
 
     @MockBean
     SubmissionMessageService submissionMessageService;
+
+    @MockBean
+    SubmissionMongoRepository submissionMongoRepository;
 
     Submission testInput;
 

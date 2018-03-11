@@ -1,0 +1,135 @@
+= Submissions
+:docinfo: shared
+:toc: auto
+
+
+== Link relations
+
+TODO
+
+== Actions
+
+TODO
+
+== List submissions for a team
+
+=== Request
+
+include::{snippets}/submissions-by-team/curl-request.adoc[]
+
+=== Fields
+
+include::{snippets}/submissions-by-team/response-fields.adoc[]
+
+=== Response
+
+include::{snippets}/submissions-by-team/http-response.adoc[]
+
+== Get a single submission
+
+=== Request
+
+include::{snippets}/get-one-submission/curl-request.adoc[]
+
+=== Fields
+
+include::{snippets}/get-one-submission/response-fields.adoc[]
+
+=== Links
+
+include::{snippets}/get-one-submission/links.adoc[]
+
+=== Response
+
+include::{snippets}/get-one-submission/http-response.adoc[]
+
+== Create a submission
+
+=== Request
+
+include::{snippets}/create-one-submission/curl-request.adoc[]
+
+=== Fields
+
+include::{snippets}/create-one-submission/response-fields.adoc[]
+
+=== Links
+
+include::{snippets}/create-one-submission/links.adoc[]
+
+=== Response
+
+include::{snippets}/create-one-submission/http-response.adoc[]
+
+
+== Update a submission
+
+=== Patching a submission
+==== Request
+
+include::{snippets}/patch-one-submission/curl-request.adoc[]
+
+==== Fields
+
+include::{snippets}/patch-one-submission/response-fields.adoc[]
+
+=== Updating a submission
+==== Request
+
+include::{snippets}/update-one-submission/curl-request.adoc[]
+
+==== Fields
+
+include::{snippets}/update-one-submission/response-fields.adoc[]
+
+== Delete a submission
+
+=== Request
+
+include::{snippets}/delete-one-submission/curl-request.adoc[]
+
+=== Response
+
+include::{snippets}/delete-one-submission/http-response.adoc[]
+
+== Submission schema
+
+=== Request
+
+include::{snippets}/submission-schema/curl-request.adoc[]
+
+=== Response
+
+include::{snippets}/submission-schema/http-response.adoc[]
+
+
+
+== List submissions available to user
+
+=== Request
+
+include::{snippets}/submissions-by-user/curl-request.adoc[]
+
+=== Fields
+
+include::{snippets}/submissions-by-user/response-fields.adoc[]
+
+=== Response
+
+include::{snippets}/submissions-by-user/http-response.adoc[]
+
+== Summarise submission statuses
+
+=== Request
+
+
+include::{snippets}/userSubmissionStatusSummary/curl-request.adoc[]
+=== Response
+
+include::{snippets}/userSubmissionStatusSummary/http-response.adoc[]
+
+=== Links
+
+include::{snippets}/userSubmissionStatusSummary/links.adoc[]
+
+

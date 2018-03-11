@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RelProvider;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceProcessor;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,9 @@ public class DocumentResourceProcessor implements ResourceProcessor<Resource<Doc
 
     @NonNull
     private RepositoryEntityLinks repositoryEntityLinks;
+
+    @NonNull
+    private RelProvider relProvider;
 
     @Override
     public Resource<Document> process(Resource<Document> rawSubmittableResource) {
@@ -89,9 +93,11 @@ public class DocumentResourceProcessor implements ResourceProcessor<Resource<Doc
             Map<String,String> expansionParams = new HashMap<>();
             expansionParams.put("typeName",document.getDocumentType());
 
-            typeLink = typeLink.expand(expansionParams);
+            String rel = relProvider.getItemResourceRelFor(DocumentType.class);
 
-            resource.add(typeLink);
+            Link expandedTypeLink = typeLink.expand(expansionParams).withRel(rel);
+
+            resource.add(expandedTypeLink);
         }
     }
 

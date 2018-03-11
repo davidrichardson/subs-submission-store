@@ -7,9 +7,9 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.Optional;
 
-@RepositoryRestResource
+@RepositoryRestResource(exported = true)
 public interface DocumentTypeMongoRepository extends MongoRepository<DocumentType, String> {
 
-    @RestResource(rel = "typeName")
-    Optional<DocumentType> findByTypeName(@Param("typeName") String typeName);
+    @RestResource(exported = true, rel = DocumentTypeSearchRelNames.FIND_ONE_BY_NAME)
+    Optional<DocumentType> findOneByTypeName(@Param("typeName") String typeName);
 }

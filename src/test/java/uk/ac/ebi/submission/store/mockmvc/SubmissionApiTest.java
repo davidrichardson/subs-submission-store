@@ -25,13 +25,15 @@ import uk.ac.ebi.submission.DocumentationProducer;
 import uk.ac.ebi.submission.store.SubsSubmissionStoreApplication;
 import uk.ac.ebi.submission.store.TestUserAndTeamNames;
 import uk.ac.ebi.submission.store.common.model.Team;
-import uk.ac.ebi.submission.store.submission.Submission;
-import uk.ac.ebi.submission.store.submission.SubmissionMongoRepository;
-import uk.ac.ebi.submission.store.submission.SubmissionSearchRelNames;
-import uk.ac.ebi.submission.store.submission.SubmissionStatusEnum;
+import uk.ac.ebi.submission.store.submission.*;
+import uk.ac.ebi.submission.store.submission.rest.SubmissionController;
+import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
+import uk.ac.ebi.submission.store.submission.rest.SubmissionSearchRelNames;
 
 import java.util.Map;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -130,6 +132,46 @@ public class SubmissionApiTest {
         ).andExpect(status().isOk())
                 .andDo(
                         document("submissions-by-team",
+                                preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
+                                preprocessResponse(prettyPrint()),
+                                links(
+                                        halLinks(),
+                                        linkWithRel("curies").ignored(),
+                                        linkWithRel("self").ignored()
+                                ),
+                                responseFields(
+                                        subsectionWithPath("_embedded.subs:submissions[]").description("Submissions known for the team"),
+                                        DocumentationHelper.paginationBlock(),
+                                        DocumentationHelper.linksResponseField()
+                                )
+                        )
+                );
+    }
+
+    @Test
+    public void list_submissions_for_a_user() throws Exception {
+
+        //prep data
+        addSubmissionToDb("My 1st submission", SubmissionStatusEnum.Completed);
+        addSubmissionToDb("My 2nd submission", SubmissionStatusEnum.Draft);
+
+
+        //prep request url
+
+        Link searchLink = linkTo(
+                methodOn(SubmissionController.class)
+                        .userSubmissions(null)
+
+        ).withRel(SubmissionSearchRelNames.USER);
+
+
+        //do request and verify
+        this.mockMvc.perform(
+                get(searchLink.getHref())
+                        .accept(RestMediaTypes.HAL_JSON)
+        ).andExpect(status().isOk())
+                .andDo(
+                        document("submissions-by-user",
                                 preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
                                 preprocessResponse(prettyPrint()),
                                 links(
@@ -374,7 +416,7 @@ public class SubmissionApiTest {
                 delete(resourceLink.getHref())
         ).andExpect(status().isNoContent())
                 .andDo(
-                        document("submit-one-submission",
+                        document("delete-one-submission",
                                 preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
                                 preprocessResponse(prettyPrint())
                         )

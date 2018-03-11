@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import uk.ac.ebi.submission.store.common.model.StatusDescription;
+import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 
 import java.util.*;
 

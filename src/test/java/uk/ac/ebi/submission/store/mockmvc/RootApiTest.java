@@ -79,7 +79,7 @@ public class RootApiTest {
                                 ),
                                 responseFields(
 
-                                        subsectionWithPath("_links").description("<<root-links,Links>> to other resources")
+                                        subsectionWithPath("_links").description("<<_links,Links>> to other resources")
 //                                        DocumentationHelper.linksResponseField()
                                 )
                         )

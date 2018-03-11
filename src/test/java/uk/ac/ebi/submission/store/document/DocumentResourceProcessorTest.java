@@ -9,9 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RelProvider;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.UriTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import uk.ac.ebi.submission.store.documentType.DocumentTypeSearchRelNames;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.documentType.DocumentType;
 import uk.ac.ebi.submission.store.validationResult.ValidationResult;
@@ -38,10 +40,14 @@ public class DocumentResourceProcessorTest {
     @MockBean
     private DocumentOperationControl documentOperationControl;
 
+    @MockBean
+    private RelProvider relProvider;
+
     private Document document;
     private Resource<Document> resource;
 
     private Link submissionLink;
+    private Link typeLinkTemplate;
     private Link typeLink;
     private Link validationResultLink;
 
@@ -51,13 +57,14 @@ public class DocumentResourceProcessorTest {
     public void buildUp() {
         document = new Document();
         document.setId("DOC_ID");
-        document.setDocumentType("TYPE_ID");
+        document.setDocumentType("TYPE_NAME");
         document.setSubmissionId("SUB_ID");
 
         resource = new Resource<>(document);
 
         submissionLink = new Link("/submissions/SUB_ID", "submission");
-        typeLink = new Link("/submittableTypes/TYPE_ID", "documentType");
+        typeLinkTemplate = new Link("/documentTypes/search/findOneByTypeName{?typeName}", "typeName");
+        typeLink = new Link("/documentTypes/search/findOneByTypeName?typeName=TYPE_NAME", "documentType");
 
         validationResultTemplatedLink = new Link(new UriTemplate("/validationResults/search/findOneBySubmittableId{?submittableId}"), "validationResult");
         validationResultLink = new Link("/validationResults/search/findOneBySubmittableId?submittableId=DOC_ID", "validationResult");
@@ -68,8 +75,9 @@ public class DocumentResourceProcessorTest {
     public void testLinks() {
 
         when(repositoryEntityLinks.linkToSingleResource(Submission.class, "SUB_ID")).thenReturn(submissionLink);
-        when(repositoryEntityLinks.linkToSingleResource(DocumentType.class, "TYPE_ID")).thenReturn(typeLink);
+        when(repositoryEntityLinks.linkToSearchResource(DocumentType.class, DocumentTypeSearchRelNames.FIND_ONE_BY_NAME)).thenReturn(typeLinkTemplate);
         when(repositoryEntityLinks.linkToSearchResource(ValidationResult.class, ValidationResultRelNames.BY_DOCUMENT_ID)).thenReturn(validationResultTemplatedLink);
+        when(relProvider.getItemResourceRelFor(DocumentType.class)).thenReturn("documentType");
 
         when(documentOperationControl.isChangeable(document)).thenReturn(true);
 

@@ -1,4 +1,4 @@
-package uk.ac.ebi.submission.store.submission;
+package uk.ac.ebi.submission.store.submission.rest;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceProcessor;
 import org.springframework.stereotype.Component;
+import uk.ac.ebi.submission.store.submission.Submission;
+import uk.ac.ebi.submission.store.submission.SubmissionOperationControl;
 
 @Component
 @RequiredArgsConstructor
