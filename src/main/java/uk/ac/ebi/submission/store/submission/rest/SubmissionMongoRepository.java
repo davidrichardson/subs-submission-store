@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RepositoryRestResource(exported = true)
-public interface SubmissionMongoRepository extends MongoRepository<Submission,String>{
+public interface SubmissionMongoRepository extends MongoRepository<Submission,String>, SubmissionRepositoryCustom{
 
     // exported as GET /things/:id
     @RestResource(exported = true)

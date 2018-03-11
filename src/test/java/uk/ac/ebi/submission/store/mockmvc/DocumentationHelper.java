@@ -100,7 +100,7 @@ public class DocumentationHelper {
 
 
     protected static FieldDescriptor linksResponseField() {
-        return subsectionWithPath("_links").description("Links to other resources");
+        return subsectionWithPath("_links").description("<<_link_relations,Links>> to other resources");
     }
 
     protected static LinkDescriptor selfRelLink() {

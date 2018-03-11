@@ -25,12 +25,14 @@ import uk.ac.ebi.submission.DocumentationProducer;
 import uk.ac.ebi.submission.store.SubsSubmissionStoreApplication;
 import uk.ac.ebi.submission.store.TestUserAndTeamNames;
 import uk.ac.ebi.submission.store.common.model.Team;
-import uk.ac.ebi.submission.store.submission.*;
+import uk.ac.ebi.submission.store.submission.Submission;
+import uk.ac.ebi.submission.store.submission.SubmissionStatusEnum;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionController;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionSearchRelNames;
 
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -162,7 +164,7 @@ public class SubmissionApiTest {
                 methodOn(SubmissionController.class)
                         .userSubmissions(null)
 
-        ).withRel(SubmissionSearchRelNames.USER);
+        ).withSelfRel();
 
 
         //do request and verify
@@ -180,7 +182,7 @@ public class SubmissionApiTest {
                                         linkWithRel("self").ignored()
                                 ),
                                 responseFields(
-                                        subsectionWithPath("_embedded.subs:submissions[]").description("Submissions known for the team"),
+                                        subsectionWithPath("_embedded.subs:submissions[]").description("List of submissions you can access"),
                                         DocumentationHelper.paginationBlock(),
                                         DocumentationHelper.linksResponseField()
                                 )
@@ -419,6 +421,58 @@ public class SubmissionApiTest {
                         document("delete-one-submission",
                                 preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
                                 preprocessResponse(prettyPrint())
+                        )
+                );
+    }
+
+    @Test
+    public void summarise_statuses_for_user() throws Exception {
+
+
+        //prep data
+        Map<SubmissionStatusEnum, Integer> statusCounts = ImmutableMap.<SubmissionStatusEnum, Integer>builder()
+                .put(SubmissionStatusEnum.Completed, 4)
+                .put(SubmissionStatusEnum.Processing, 1)
+                .put(SubmissionStatusEnum.Draft, 1)
+                .build();
+
+        statusCounts.entrySet().stream()
+                .forEach(entry ->
+                        IntStream.generate(() -> 1)
+                                .limit(entry.getValue())
+                                .forEach(
+                                        i -> addSubmissionToDb("", entry.getKey())
+                                )
+                );
+
+        //prep request url
+
+        Link searchLink = linkTo(
+                methodOn(SubmissionController.class)
+                        .userSubmissionStatusSummary()
+
+        ).withSelfRel();
+
+
+        //do request and verify
+        this.mockMvc.perform(
+                get(searchLink.getHref())
+                        .accept(RestMediaTypes.HAL_JSON)
+        ).andExpect(status().isOk())
+                .andDo(
+                        document("submission-status-summary-for-user",
+                                preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
+                                preprocessResponse(prettyPrint()),
+                                links(
+                                        halLinks(),
+                                        linkWithRel("self").ignored()
+                                ),
+                                responseFields(
+                                        fieldWithPath("content." + SubmissionStatusEnum.Completed.name()).description("Number of completed submissions"),
+                                        fieldWithPath("content." + SubmissionStatusEnum.Processing.name()).description("Number of submissions currently being processed"),
+                                        fieldWithPath("content." + SubmissionStatusEnum.Draft.name()).description("Number of submissions in draft"),
+                                        DocumentationHelper.linksResponseField()
+                                )
                         )
                 );
     }

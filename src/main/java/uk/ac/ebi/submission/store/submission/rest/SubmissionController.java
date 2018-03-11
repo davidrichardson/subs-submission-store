@@ -6,20 +6,26 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import uk.ac.ebi.submission.store.common.IdentifiableResourceSelfLinker;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.user.UserTeamService;
 
 import java.util.List;
+import java.util.Map;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 
-@RepositoryRestController
+@RestController
 @RequiredArgsConstructor
 public class SubmissionController {
 
@@ -35,25 +41,39 @@ public class SubmissionController {
     @NonNull
     private IdentifiableResourceSelfLinker<Submission> identifiableResourceSelfLinker;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/submissions/search/user")
+    @RequestMapping(method = RequestMethod.GET, value = "/user/submissions")
     public @ResponseBody
-    ResponseEntity<?> userSubmissions(Pageable pageable) {
+    ResponseEntity<PagedResources<Resource<Submission>>> userSubmissions(Pageable pageable) {
         List<String> teamNamesForUser = userTeamService.userTeams();
 
         Page<Submission> submissions = submissionMongoRepository.findByTeamNameInOrderByCreatedByDesc(teamNamesForUser, pageable);
 
         PagedResources<Resource<Submission>> resources = pagedResourcesAssembler.toResource(submissions, entity -> {
-            Resource<Submission> resource = new Resource(entity);
+                    Resource<Submission> resource = new Resource(entity);
 
-            identifiableResourceSelfLinker.addSelfLinks(resource);
-            submissionResourceProcessor.process(resource);
+                    identifiableResourceSelfLinker.addSelfLinks(resource);
+                    submissionResourceProcessor.process(resource);
 
-            return resource;
-        }
+                    return resource;
+                }
         );
 
 
         return ResponseEntity.ok(resources);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/user/submissions/statusSummary")
+    public @ResponseBody
+    ResponseEntity<Resource<Map<String, Integer>>> userSubmissionStatusSummary() {
+        List<String> userTeamNames = userTeamService.userTeams();
+
+        Map<String, Integer> statusCounts = submissionMongoRepository.statusCountsByTeam(userTeamNames);
+
+        Link selfLink = linkTo(methodOn(this.getClass()).userSubmissionStatusSummary()).withSelfRel();
+
+        return ResponseEntity.ok(
+                new Resource<>(statusCounts, selfLink)
+        );
     }
 
 

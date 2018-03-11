@@ -5,11 +5,25 @@
 
 == Link relations
 
-TODO
+include::{snippets}/get-one-submission/links.adoc[]
 
 == Actions
 
-TODO
+The actions block shows what you can currently do with the submission.
+
+|===
+|Element|Description
+
+|`updateable`
+|`true` if you can make changes to this submission (through PUT or PATCH requests to the submission, or by adding documents to it)
+
+|`deleteable`
+|`true` if you can delete this submission
+
+|`statuses`
+|You can set the submission `status` to one of these values.
+
+|===
 
 == List submissions for a team
 
@@ -35,10 +49,6 @@ include::{snippets}/get-one-submission/curl-request.adoc[]
 
 include::{snippets}/get-one-submission/response-fields.adoc[]
 
-=== Links
-
-include::{snippets}/get-one-submission/links.adoc[]
-
 === Response
 
 include::{snippets}/get-one-submission/http-response.adoc[]
@@ -52,10 +62,6 @@ include::{snippets}/create-one-submission/curl-request.adoc[]
 === Fields
 
 include::{snippets}/create-one-submission/response-fields.adoc[]
-
-=== Links
-
-include::{snippets}/create-one-submission/links.adoc[]
 
 === Response
 
@@ -104,7 +110,7 @@ include::{snippets}/submission-schema/http-response.adoc[]
 
 
 
-== List submissions available to user
+== List your submissions
 
 === Request
 
@@ -118,18 +124,12 @@ include::{snippets}/submissions-by-user/response-fields.adoc[]
 
 include::{snippets}/submissions-by-user/http-response.adoc[]
 
-== Summarise submission statuses
+== Summarise statuses for your submissions
 
 === Request
 
 
-include::{snippets}/userSubmissionStatusSummary/curl-request.adoc[]
+include::{snippets}/submission-status-summary-for-user/curl-request.adoc[]
 === Response
 
-include::{snippets}/userSubmissionStatusSummary/http-response.adoc[]
-
-=== Links
-
-include::{snippets}/userSubmissionStatusSummary/links.adoc[]
-
-
+include::{snippets}/submission-status-summary-for-user/http-response.adoc[]
