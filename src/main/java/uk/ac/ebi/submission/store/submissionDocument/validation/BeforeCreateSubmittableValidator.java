@@ -1,7 +1,7 @@
 package uk.ac.ebi.submission.store.submissionDocument.validation;
 
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
-import uk.ac.ebi.submission.store.submissionDocument.SubmissionSubmissionDocumentMongoRepository;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentMongoRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ public class BeforeCreateSubmittableValidator implements Validator {
     }
 
     @NonNull
-    private SubmissionSubmissionDocumentMongoRepository submissionDocumentMongoRepository;
+    private SubmissionDocumentMongoRepository submissionDocumentMongoRepository;
 
     @NonNull
     private CommonSubmittableValidation commonSubmittableValidation;

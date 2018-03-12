@@ -98,18 +98,6 @@ include::{snippets}/delete-one-submission/curl-request.adoc[]
 
 include::{snippets}/delete-one-submission/http-response.adoc[]
 
-== Submission schema
-
-=== Request
-
-include::{snippets}/submission-schema/curl-request.adoc[]
-
-=== Response
-
-include::{snippets}/submission-schema/http-response.adoc[]
-
-
-
 == List your submissions
 
 === Request
@@ -128,8 +116,18 @@ include::{snippets}/submissions-by-user/http-response.adoc[]
 
 === Request
 
-
 include::{snippets}/submission-status-summary-for-user/curl-request.adoc[]
+
 === Response
 
 include::{snippets}/submission-status-summary-for-user/http-response.adoc[]
+
+== Submission schema
+
+=== Request
+
+include::{snippets}/submission-schema/curl-request.adoc[]
+
+=== Response
+
+include::{snippets}/submission-schema/http-response.adoc[]

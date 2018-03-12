@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RepositoryRestResource
-public interface SubmissionSubmissionDocumentMongoRepository extends MongoRepository<SubmissionDocument, String>, SubmissionDocumentRepositoryCustom {
+public interface SubmissionDocumentMongoRepository extends MongoRepository<SubmissionDocument, String>, SubmissionDocumentRepositoryCustom {
 
     // exported as GET /things/:id
     @RestResource(exported = true)

@@ -16,6 +16,20 @@ import org.springframework.web.context.WebApplicationContext;
 import uk.ac.ebi.submission.DocumentationProducer;
 import uk.ac.ebi.submission.SubmissionsApplication;
 import uk.ac.ebi.submission.store.TestUserAndTeamNames;
+import uk.ac.ebi.submission.store.submission.Submission;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
+
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.halLinks;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SubmissionsApplication.class)
@@ -41,8 +55,28 @@ public class SubmissionDocumentApiTest {
     }
 
     @Test
-    public void test(){
-
+    public void submission_document_schema() throws Exception {
+        this.mockMvc.perform(
+                get(documentationHelper.collectionProfile(SubmissionDocument.class))
+                        .accept(DocumentationHelper.JSON_SCHEMA_CONTENT_TYPE)
+        ).andExpect(status().isOk())
+                .andDo(
+                        document("submission-document-schema",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                links(
+                                        halLinks()
+                                ),
+                                responseFields(
+                                        fieldWithPath("title").ignored(),
+                                        fieldWithPath("description").ignored(),
+                                        fieldWithPath("type").ignored(),
+                                        fieldWithPath("$schema").ignored(),
+                                        subsectionWithPath("properties").ignored(),
+                                        subsectionWithPath("definitions").ignored()
+                                )
+                        )
+                );
     }
 
 }

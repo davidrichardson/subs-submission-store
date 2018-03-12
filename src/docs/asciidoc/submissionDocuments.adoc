@@ -1,0 +1,31 @@
+= Submission documents
+:docinfo: shared
+:toc: auto
+
+== Link relations
+
+== Actions
+
+== List all documents in a submission
+
+== List documents of one type in a submission
+
+== Get a single submission document by ID
+
+== Get a single submission document by submission, type and unique name
+
+== Add a document to a submission
+
+== Delete a submission document
+
+== Summarise document statuses for a submission
+
+== Submission document schema
+
+=== Request
+
+include::{snippets}/submission-document-schema/curl-request.adoc[]
+
+=== Response
+
+include::{snippets}/submission-document-schema/http-response.adoc[]

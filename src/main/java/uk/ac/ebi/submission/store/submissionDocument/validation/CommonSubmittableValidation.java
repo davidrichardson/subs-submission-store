@@ -10,7 +10,7 @@ import uk.ac.ebi.submission.store.documentType.DocumentType;
 import uk.ac.ebi.submission.store.documentType.DocumentTypeMongoRepository;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.submission.SubmissionOperationControl;
-import uk.ac.ebi.submission.store.submissionDocument.SubmissionSubmissionDocumentMongoRepository;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentMongoRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.util.Optional;
 public class CommonSubmittableValidation {
 
     @NonNull
-    private SubmissionSubmissionDocumentMongoRepository submissionDocumentMongoRepository;
+    private SubmissionDocumentMongoRepository submissionDocumentMongoRepository;
 
     @NonNull
     private SubmissionMongoRepository submissionMongoRepository;
