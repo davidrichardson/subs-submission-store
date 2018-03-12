@@ -3,7 +3,7 @@ package uk.ac.ebi.submission.store.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import uk.ac.ebi.submission.store.common.model.StatusDescription;
-import uk.ac.ebi.submission.store.document.DocumentStatusEnum;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentStatusEnum;
 import uk.ac.ebi.submission.store.submission.SubmissionStatusEnum;
 
 import java.util.*;
@@ -49,39 +49,39 @@ public class StatusConfiguration {
     public List<StatusDescription> processingStatuses() {
         List<StatusDescription> statuses = Arrays.asList(
 
-                StatusDescription.build(DocumentStatusEnum.Draft, "In preparation")
-                        .addUserTransition(DocumentStatusEnum.Submitted)
+                StatusDescription.build(SubmissionDocumentStatusEnum.Draft, "In preparation")
+                        .addUserTransition(SubmissionDocumentStatusEnum.Submitted)
                         .acceptUpdates(),
 
-                StatusDescription.build(DocumentStatusEnum.Submitted, "User has submitted document for storage by archives")
-                        .addSystemTransition(DocumentStatusEnum.Dispatched),
+                StatusDescription.build(SubmissionDocumentStatusEnum.Submitted, "User has submitted submissionDocument for storage by archives")
+                        .addSystemTransition(SubmissionDocumentStatusEnum.Dispatched),
 
-                StatusDescription.build(DocumentStatusEnum.Dispatched, "Submission system has dispatched document to the archive")
-                        .addSystemTransition(DocumentStatusEnum.Received),
+                StatusDescription.build(SubmissionDocumentStatusEnum.Dispatched, "Submission system has dispatched submissionDocument to the archive")
+                        .addSystemTransition(SubmissionDocumentStatusEnum.Received),
 
-                StatusDescription.build(DocumentStatusEnum.Received, "Archive has received document")
-                        .addSystemTransition(DocumentStatusEnum.Curation)
-                        .addSystemTransition(DocumentStatusEnum.Processing),
+                StatusDescription.build(SubmissionDocumentStatusEnum.Received, "Archive has received submissionDocument")
+                        .addSystemTransition(SubmissionDocumentStatusEnum.Curation)
+                        .addSystemTransition(SubmissionDocumentStatusEnum.Processing),
 
-                StatusDescription.build(DocumentStatusEnum.Curation, "Curation team is reviewing document")
-                        .addSystemTransition(DocumentStatusEnum.Accepted)
-                        .addSystemTransition(DocumentStatusEnum.ActionRequired),
+                StatusDescription.build(SubmissionDocumentStatusEnum.Curation, "Curation team is reviewing submissionDocument")
+                        .addSystemTransition(SubmissionDocumentStatusEnum.Accepted)
+                        .addSystemTransition(SubmissionDocumentStatusEnum.ActionRequired),
 
-                StatusDescription.build(DocumentStatusEnum.Accepted, "Curation team has accepted document")
-                        .addSystemTransition(DocumentStatusEnum.Processing),
+                StatusDescription.build(SubmissionDocumentStatusEnum.Accepted, "Curation team has accepted submissionDocument")
+                        .addSystemTransition(SubmissionDocumentStatusEnum.Processing),
 
-                StatusDescription.build(DocumentStatusEnum.ActionRequired, "Curation team have requested changes or additional information")
-                        .addUserTransition(DocumentStatusEnum.Submitted)
+                StatusDescription.build(SubmissionDocumentStatusEnum.ActionRequired, "Curation team have requested changes or additional information")
+                        .addUserTransition(SubmissionDocumentStatusEnum.Submitted)
                         .acceptUpdates(),
 
-                StatusDescription.build(DocumentStatusEnum.Processing, "Archive is processing document")
-                        .addSystemTransition(DocumentStatusEnum.Completed),
+                StatusDescription.build(SubmissionDocumentStatusEnum.Processing, "Archive is processing submissionDocument")
+                        .addSystemTransition(SubmissionDocumentStatusEnum.Completed),
 
-                StatusDescription.build(DocumentStatusEnum.Completed, "Archive has stored document"),
+                StatusDescription.build(SubmissionDocumentStatusEnum.Completed, "Archive has stored submissionDocument"),
 
-                StatusDescription.build(DocumentStatusEnum.Error, "Archive agent has rejected a document"),
+                StatusDescription.build(SubmissionDocumentStatusEnum.Error, "Archive agent has rejected a submissionDocument"),
 
-                StatusDescription.build(DocumentStatusEnum.Rejected, "Archive agent has rejected a document")
+                StatusDescription.build(SubmissionDocumentStatusEnum.Rejected, "Archive agent has rejected a submissionDocument")
         );
 
 

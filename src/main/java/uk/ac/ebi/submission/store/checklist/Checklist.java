@@ -49,7 +49,7 @@ public class Checklist {
     private Set<String> tags = new HashSet<>();
 
     /**
-     * Document type that this checklist is relevant to
+     * SubmissionDocument type that this checklist is relevant to
      */
     private String submittableType;
 

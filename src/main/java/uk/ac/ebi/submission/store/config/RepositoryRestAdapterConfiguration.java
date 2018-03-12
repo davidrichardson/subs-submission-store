@@ -6,7 +6,7 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 import uk.ac.ebi.submission.mapping.ObjectMappingConfig;
 import uk.ac.ebi.submission.store.submission.Submission;
-import uk.ac.ebi.submission.store.document.Document;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
 
 @Configuration
 class RepositoryRestAdapterConfiguration extends RepositoryRestConfigurerAdapter {
@@ -20,7 +20,7 @@ class RepositoryRestAdapterConfiguration extends RepositoryRestConfigurerAdapter
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(
                 Submission.class,
-                Document.class
+                SubmissionDocument.class
         );
     }
 }

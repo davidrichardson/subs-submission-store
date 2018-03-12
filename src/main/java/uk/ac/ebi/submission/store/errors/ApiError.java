@@ -16,7 +16,7 @@ import java.util.List;
 public class ApiError {
 
     /**
-     * An URL to a document describing the error condition (optional).
+     * An URL to a submissionDocument describing the error condition (optional).
      */
     private String type;
     /**

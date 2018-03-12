@@ -4,8 +4,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Component;
-import uk.ac.ebi.submission.store.document.Document;
-import uk.ac.ebi.submission.store.document.DocumentMongoRepository;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionSubmissionDocumentMongoRepository;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 
@@ -16,14 +16,14 @@ import java.util.Optional;
 public class TeamNameExtractor {
 
     @NonNull
-    private DocumentMongoRepository documentMongoRepository;
+    private SubmissionSubmissionDocumentMongoRepository submissionDocumentMongoRepository;
 
     @NonNull
     private SubmissionMongoRepository submissionMongoRepository;
 
 
     public String documentIdTeam(String documentId) {
-        Optional<Document> document = documentMongoRepository.findById(documentId);
+        Optional<SubmissionDocument> document = submissionDocumentMongoRepository.findById(documentId);
 
         if (!document.isPresent()) {
             throw new ResourceNotFoundException();

@@ -11,9 +11,9 @@ import uk.ac.ebi.submission.dispatch.model.SubmissionEnvelope;
 import uk.ac.ebi.submission.store.JsonHelper;
 import uk.ac.ebi.submission.store.common.model.Submitter;
 import uk.ac.ebi.submission.store.common.model.Team;
-import uk.ac.ebi.submission.store.document.DocumentStatusEnum;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentStatusEnum;
 import uk.ac.ebi.submission.store.submission.Submission;
-import uk.ac.ebi.submission.store.document.Document;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
 import uk.ac.ebi.submission.store.submission.SubmissionStatusEnum;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,16 +55,16 @@ public class SubmissionEnvelopeSerializationTest {
         return se;
     }
 
-    private Document document(String id, String uniqueName, String documentType) {
-        Document document = new Document();
-        document.setId(id);
-        document.setSubmitter(Submitter.of("alice@thing.ac.uk", null));
-        document.setTeam(Team.of("subs.testTeam"));
-        document.setUniqueName(uniqueName);
-        document.setDocumentType(documentType);
-        document.setStatus(DocumentStatusEnum.Completed);
-        document.setContent(JsonHelper.stringToJsonNode("{\"key\": \"value\"}"));
-        return document;
+    private SubmissionDocument document(String id, String uniqueName, String documentType) {
+        SubmissionDocument submissionDocument = new SubmissionDocument();
+        submissionDocument.setId(id);
+        submissionDocument.setSubmitter(Submitter.of("alice@thing.ac.uk", null));
+        submissionDocument.setTeam(Team.of("subs.testTeam"));
+        submissionDocument.setUniqueName(uniqueName);
+        submissionDocument.setDocumentType(documentType);
+        submissionDocument.setStatus(SubmissionDocumentStatusEnum.Completed);
+        submissionDocument.setContent(JsonHelper.stringToJsonNode("{\"key\": \"value\"}"));
+        return submissionDocument;
     }
 
     private Submission submission() {

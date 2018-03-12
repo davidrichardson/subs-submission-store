@@ -15,7 +15,7 @@ import uk.ac.ebi.submission.store.common.ResourceLinkHelper;
 public class RootResourceProcessor implements ResourceProcessor<RepositoryLinksResource> {
 
 
-    @Value("${aap.domains.url}")
+    @Value("${aap.domains.url:https://explore.api.aai.ebi.ac.uk}")
     private String aapApiRootUrl;
 
     @Override

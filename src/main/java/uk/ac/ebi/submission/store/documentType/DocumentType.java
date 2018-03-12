@@ -26,7 +26,7 @@ public class DocumentType implements Identifiable<String> {
     private String description;
 
     /**
-     * Example document of this type, that we can present to users to help them understand how to use this type
+     * Example submissionDocument of this type, that we can present to users to help them understand how to use this type
      */
     @JsonRawValue
     private String exampleDocument;

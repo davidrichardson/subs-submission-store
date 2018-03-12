@@ -7,7 +7,7 @@ import java.util.Set;
 @Data
 public class ExpectedValidators {
     /***
-     *  All these named validators must pass for the document to be considered valid.
+     *  All these named validators must pass for the submissionDocument to be considered valid.
      *
      *  e.g. ENA Experiments must go through the enaExperiment validator
      */

@@ -3,7 +3,7 @@ package uk.ac.ebi.submission.validation.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uk.ac.ebi.submission.store.document.Document;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,18 +19,18 @@ public class ValidationEnvelope {
     private String validationResultId;
     private int validationResultVersion;
 
-    private Document entityToValidate;
+    private SubmissionDocument entityToValidate;
     private String submissionId;
 
-    private final Map<String, Collection<Document>> referencedItemsByDocumentType = new HashMap<>();
+    private final Map<String, Collection<SubmissionDocument>> referencedItemsByDocumentType = new HashMap<>();
 
-    private void referencedItemsByDocumentType(Document document) {
-        String documentType = document.getDocumentType();
+    private void referencedItemsByDocumentType(SubmissionDocument submissionDocument) {
+        String documentType = submissionDocument.getDocumentType();
 
         if (!referencedItemsByDocumentType.containsKey(documentType)) {
             referencedItemsByDocumentType.put(documentType, new ArrayList<>());
         }
 
-        referencedItemsByDocumentType.get(documentType).add(document);
+        referencedItemsByDocumentType.get(documentType).add(submissionDocument);
     }
 }
