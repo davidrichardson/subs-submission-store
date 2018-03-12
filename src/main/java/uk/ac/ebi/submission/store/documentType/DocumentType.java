@@ -40,6 +40,13 @@ public class DocumentType implements Identifiable<String> {
      * name of the archive that accepts this type
      */
     private String archiveName;
+    
+    /**
+     * prefix for resolving resources of this type through identifiers.org
+     * e.g. EGA studies have the prefix "ega.study" and can be resolved through
+     * http://identifiers.org/ega.study/<accession>     
+     */
+    private String resourceResolutionPrefix;
 
     private ValidationRequirements validationRequirements;
     private DisplayRequirements displayRequirements;
