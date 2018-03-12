@@ -1,0 +1,35 @@
+= User
+:docinfo: shared
+:toc: auto
+
+== Link relations
+
+include::{snippets}/current-user/links.adoc[]
+
+== Get your user details
+
+=== Request
+
+include::{snippets}/current-user/curl-request.adoc[]
+
+=== Fields
+
+include::{snippets}/current-user/response-fields.adoc[]
+
+=== Response
+
+include::{snippets}/current-user/http-response.adoc[]
+
+== List your teams
+
+=== Request
+
+include::{snippets}/current-user-teams/curl-request.adoc[]
+
+=== Fields
+
+include::{snippets}/current-user-teams/response-fields.adoc[]
+
+=== Response
+
+include::{snippets}/current-user-teams/http-response.adoc[]

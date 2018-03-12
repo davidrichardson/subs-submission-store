@@ -1,0 +1,21 @@
+= Root resource
+:docinfo: shared
+:toc: auto
+
+== Link relations
+
+include::{snippets}/api-root/links.adoc[]
+
+== Get root resouce
+
+=== Request
+
+include::{snippets}/api-root/curl-request.adoc[]
+
+=== Fields
+
+include::{snippets}/api-root/response-fields.adoc[]
+
+=== Response
+
+include::{snippets}/api-root/http-response.adoc[]

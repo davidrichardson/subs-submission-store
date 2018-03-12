@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceProcessor;
 import org.springframework.stereotype.Component;
+import uk.ac.ebi.submission.store.common.ResourceLinkHelper;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.submission.SubmissionOperationControl;
 
@@ -33,6 +34,8 @@ public class SubmissionResourceProcessor implements ResourceProcessor<Resource<S
                 submissionOperationControl.availableStatuses(resource.getContent())
         );
 
+
+        ResourceLinkHelper.sortResourceLinksAlphabeticallyByRelName(resource);
 
         log.debug("Converted resource to {}", submissionResource);
 

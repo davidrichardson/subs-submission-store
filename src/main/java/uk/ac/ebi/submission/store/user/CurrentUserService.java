@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import uk.ac.ebi.submission.store.security.RoleLookup;
+import uk.ac.ebi.tsc.aap.client.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserTeamService {
+public class CurrentUserService {
 
     @NonNull
     private RoleLookup roleLookup;
@@ -33,5 +34,10 @@ public class UserTeamService {
 
     public boolean userIsAdmin() {
         return userTeams().contains(roleLookup.adminRole());
+    }
+
+    public User getCurrentUser() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (User) authentication.getDetails();
     }
 }

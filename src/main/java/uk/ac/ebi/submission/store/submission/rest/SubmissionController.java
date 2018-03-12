@@ -4,7 +4,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.ac.ebi.submission.store.common.IdentifiableResourceSelfLinker;
 import uk.ac.ebi.submission.store.submission.Submission;
-import uk.ac.ebi.submission.store.user.UserTeamService;
+import uk.ac.ebi.submission.store.user.CurrentUserService;
 
 import java.util.List;
 import java.util.Map;
@@ -35,7 +34,7 @@ public class SubmissionController {
     @NonNull
     private PagedResourcesAssembler<Submission> pagedResourcesAssembler;
     @NonNull
-    private UserTeamService userTeamService;
+    private CurrentUserService currentUserService;
     @NonNull
     private SubmissionResourceProcessor submissionResourceProcessor;
     @NonNull
@@ -44,7 +43,7 @@ public class SubmissionController {
     @RequestMapping(method = RequestMethod.GET, value = "/user/submissions")
     public @ResponseBody
     ResponseEntity<PagedResources<Resource<Submission>>> userSubmissions(Pageable pageable) {
-        List<String> teamNamesForUser = userTeamService.userTeams();
+        List<String> teamNamesForUser = currentUserService.userTeams();
 
         Page<Submission> submissions = submissionMongoRepository.findByTeamNameInOrderByCreatedByDesc(teamNamesForUser, pageable);
 
@@ -65,7 +64,7 @@ public class SubmissionController {
     @RequestMapping(method = RequestMethod.GET, value = "/user/submissions/statusSummary")
     public @ResponseBody
     ResponseEntity<Resource<Map<String, Integer>>> userSubmissionStatusSummary() {
-        List<String> userTeamNames = userTeamService.userTeams();
+        List<String> userTeamNames = currentUserService.userTeams();
 
         Map<String, Integer> statusCounts = submissionMongoRepository.statusCountsByTeam(userTeamNames);
 
