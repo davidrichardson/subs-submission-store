@@ -1,16 +1,8 @@
 language: java
 jdk:
 - oraclejdk8
-addons:
-  apt:
-    sources:
-    - mongodb-upstart
-    packages:
-    - mongodb-org-server
-    - mongodb-org-shell
+
 install: ./gradlew assemble
-before_script:
-- sleep 15
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -21,7 +13,7 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
 
-script: "./gradlew test"
+script: "./gradlew check"
 
 group: stable
 os: linux
