@@ -1,5 +1,6 @@
 package uk.ac.ebi.submission.store.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,8 @@ import uk.ac.ebi.tsc.aap.client.security.TokenAuthenticationService;
 @ComponentScan("uk.ac.ebi.tsc.aap.client.security")
 @ConditionalOnProperty(prefix = "aap", name = "enabled", matchIfMissing = true)
 @Order(SecurityProperties.BASIC_AUTH_ORDER - 15)
+@Slf4j
 public class SubsAAPWebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SubsAAPWebSecurityConfig.class);
 
 
     @Autowired
@@ -45,13 +45,13 @@ public class SubsAAPWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private TokenAuthenticationService tokenAuthenticationService;
 
     private StatelessAuthenticationFilter statelessAuthenticationFilterBean() throws Exception {
-        LOGGER.info("this.tokenAuthenticationService: " + this.tokenAuthenticationService);
+        log.info("this.tokenAuthenticationService: " + this.tokenAuthenticationService);
         return new StatelessAuthenticationFilter(this.tokenAuthenticationService);
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        LOGGER.info("[StatelessAuthenticationEntryPoint]- " + unauthorizedHandler);
+        log.info("[StatelessAuthenticationEntryPoint]- " + unauthorizedHandler);
 
         httpSecurity
                 // we don't need CSRF because our token is invulnerable
@@ -59,22 +59,29 @@ public class SubsAAPWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 // don't create session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/").permitAll()
-                .antMatchers("/browser/**/*").permitAll()
-                .antMatchers("/docs/**/*").permitAll()
+                .authorizeRequests()
+                //general server use + health
+                .antMatchers("/").permitAll()
+                .antMatchers("/browser/**").permitAll()
+                .antMatchers("/docs/**").permitAll()
                 .antMatchers("/health").permitAll()
                 .antMatchers("/health/summary").permitAll()
+                .antMatchers(HttpMethod.GET,"/profile").permitAll()
                 .antMatchers(HttpMethod.GET,"/profile/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/uiSupportItems/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/templates/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/submissions").permitAll()
-                .antMatchers(HttpMethod.GET,"/documents").permitAll()
-                .antMatchers(HttpMethod.GET,"/validationResults").permitAll()
-                .antMatchers(HttpMethod.GET,"/submissionPlanWizards/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/checklists/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/documentTypes/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/*/search").permitAll()
                 .mvcMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                .mvcMatchers(HttpMethod.HEAD,"/**").permitAll() //
+                // parts of the app visible to anyone, even without login
+                .antMatchers(HttpMethod.GET,"/submissionPlanWizards").permitAll()
+                .antMatchers(HttpMethod.GET,"/submissionPlanWizards/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/checklists").permitAll()
+                .antMatchers(HttpMethod.GET,"/checklists/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/documentTypes").permitAll()
+                .antMatchers(HttpMethod.GET,"/documentTypes/**").permitAll()
+                // user data, documents must be secure but collection roots are ok
+                .antMatchers(HttpMethod.GET,"/submissions").permitAll()
+                .antMatchers(HttpMethod.GET,"/submissionDocuments").permitAll()
+                .antMatchers(HttpMethod.GET,"/validationResults").permitAll()
                 .anyRequest().authenticated();
 
         httpSecurity.addFilterBefore(statelessAuthenticationFilterBean(),
