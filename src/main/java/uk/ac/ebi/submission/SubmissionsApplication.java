@@ -6,9 +6,7 @@ import uk.ac.ebi.submission.mapping.ObjectMappingConfig;
 import uk.ac.ebi.submission.messaging.MessageConverterConfig;
 
 @SpringBootApplication(scanBasePackageClasses = {
-        SubmissionsApplication.class,
-        ObjectMappingConfig.class,
-        MessageConverterConfig.class
+        SubmissionsApplication.class
 })
 public class SubmissionsApplication {
 
