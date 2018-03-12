@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import uk.ac.ebi.submission.DocumentationProducer;
-import uk.ac.ebi.submission.store.SubsSubmissionStoreApplication;
+import uk.ac.ebi.submission.SubmissionsApplication;
 import uk.ac.ebi.submission.store.TestUserAndTeamNames;
 import uk.ac.ebi.submission.store.common.model.Team;
 import uk.ac.ebi.submission.store.submission.Submission;
@@ -44,7 +44,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SubsSubmissionStoreApplication.class)
+@SpringBootTest(classes = SubmissionsApplication.class)
 @WithMockUser(username = "usi_admin_user", roles = {TestUserAndTeamNames.TEAM_NAME, TestUserAndTeamNames.ADMIN_TEAM_NAME})
 @Category(DocumentationProducer.class)
 public class SubmissionApiTest {
