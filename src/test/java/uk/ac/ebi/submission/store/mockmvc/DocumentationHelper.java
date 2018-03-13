@@ -37,6 +37,8 @@ public class DocumentationHelper {
     private String scheme;
 
 
+    protected static final String PATCH_JSON_CONTENT_TYPE = "application/patch+json";
+
     protected static final String JSON_SCHEMA_CONTENT_TYPE = "application/schema+json";
 
     public static final String CONTEXT_PATH = "";

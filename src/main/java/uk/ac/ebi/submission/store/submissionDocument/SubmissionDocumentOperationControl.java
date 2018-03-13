@@ -38,7 +38,7 @@ public class SubmissionDocumentOperationControl {
     }
 
     private boolean isSubmissionChangeable(SubmissionDocument submissionDocument) {
-        return submissionOperationControl.isChangeable(submissionDocument.getId());
+        return submissionDocument.getSubmissionId() != null && submissionOperationControl.isChangeable(submissionDocument.getSubmissionId());
     }
 
 }

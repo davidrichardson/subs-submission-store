@@ -17,7 +17,7 @@ import static org.mockito.BDDMockito.verify;
 public class SubmissionDocumentMessageServiceTest {
 
 
-    SubmittableMessageService submittableMessageService;
+    SubmissionDocumentMessageService submissionDocumentMessageService;
 
     @MockBean
     RabbitMessagingTemplate rabbitMessagingTemplate;
@@ -25,7 +25,7 @@ public class SubmissionDocumentMessageServiceTest {
 
     @Before
     public void buildUp() {
-        submittableMessageService = new SubmittableMessageService(rabbitMessagingTemplate);
+        submissionDocumentMessageService = new SubmissionDocumentMessageService(rabbitMessagingTemplate);
     }
 
 
@@ -35,7 +35,7 @@ public class SubmissionDocumentMessageServiceTest {
         submissionDocument.setContent(JsonHelper.stringToJsonNode("{}"));
         submissionDocument.setDocumentType("testType");
 
-        submittableMessageService.notifyCrudEvent(submissionDocument, CrudEvent.created);
+        submissionDocumentMessageService.notifyCrudEvent(submissionDocument, CrudEvent.created);
 
         String expectedRoutingKey = "subs.submissionDocument.testType.created";
 

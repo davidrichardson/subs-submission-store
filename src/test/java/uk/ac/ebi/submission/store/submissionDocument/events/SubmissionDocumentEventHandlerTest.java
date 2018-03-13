@@ -24,11 +24,11 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.verify;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SubmittableEventHandler.class)
+@SpringBootTest(classes = SubmissionDocumentEventHandler.class)
 public class SubmissionDocumentEventHandlerTest {
 
     @Autowired
-    SubmittableEventHandler submittableEventHandler;
+    SubmissionDocumentEventHandler submissionDocumentEventHandler;
 
     @MockBean
     RefExtractor refExtractor;
@@ -37,7 +37,7 @@ public class SubmissionDocumentEventHandlerTest {
     FileRefExtractor fileRefExtractor;
 
     @MockBean
-    SubmittableMessageService submittableMessageService;
+    SubmissionDocumentMessageService submissionDocumentMessageService;
 
     SubmissionDocument testInput;
 
@@ -71,7 +71,7 @@ public class SubmissionDocumentEventHandlerTest {
         given(this.fileRefExtractor.extractFileRefs("{}")).willReturn(files);
 
 
-        submittableEventHandler.handleBeforeCreate(testInput);
+        submissionDocumentEventHandler.handleBeforeCreate(testInput);
 
         assertThat(testInput.getRefs(), equalTo(refs));
         assertThat(testInput.getUploadedFileRefs(), equalTo(files));
@@ -98,7 +98,7 @@ public class SubmissionDocumentEventHandlerTest {
         given(this.fileRefExtractor.extractFileRefs("{}")).willReturn(files);
 
 
-        submittableEventHandler.handleBeforeSave(testInput);
+        submissionDocumentEventHandler.handleBeforeSave(testInput);
 
         assertThat(testInput.getRefs(), equalTo(refs));
         assertThat(testInput.getUploadedFileRefs(), equalTo(files));
@@ -108,25 +108,25 @@ public class SubmissionDocumentEventHandlerTest {
     @Test
     public void testAfterCreateCallsMessageService() {
 
-        submittableEventHandler.handleAfterCreate(testInput);
+        submissionDocumentEventHandler.handleAfterCreate(testInput);
 
-        verify(submittableMessageService).notifyCrudEvent(testInput, CrudEvent.created);
+        verify(submissionDocumentMessageService).notifyCrudEvent(testInput, CrudEvent.created);
     }
 
     @Test
     public void testAfterUpdateCallsMessageService() {
 
-        submittableEventHandler.handleAfterUpdate(testInput);
+        submissionDocumentEventHandler.handleAfterUpdate(testInput);
 
-        verify(submittableMessageService).notifyCrudEvent(testInput, CrudEvent.updated);
+        verify(submissionDocumentMessageService).notifyCrudEvent(testInput, CrudEvent.updated);
     }
 
     @Test
     public void testAfterDeleteCallsMessageService() {
 
-        submittableEventHandler.handleAfterDelete(testInput);
+        submissionDocumentEventHandler.handleAfterDelete(testInput);
 
-        verify(submittableMessageService).notifyCrudEvent(testInput, CrudEvent.deleted);
+        verify(submissionDocumentMessageService).notifyCrudEvent(testInput, CrudEvent.deleted);
     }
 
 }

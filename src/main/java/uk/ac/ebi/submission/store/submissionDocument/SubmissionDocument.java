@@ -1,5 +1,6 @@
 package uk.ac.ebi.submission.store.submissionDocument;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
@@ -57,7 +58,10 @@ public class SubmissionDocument implements Identifiable<String>, Audited {
     }
 
 
+    @JsonProperty("_refs")
     private Collection<Ref> refs;
+
+    @JsonProperty("_uploadedFileRefs")
     private Collection<UploadedFileRef> uploadedFileRefs;
 
     private Collection<String> checklists;

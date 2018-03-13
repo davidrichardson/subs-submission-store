@@ -10,9 +10,9 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceProcessor;
 import org.springframework.stereotype.Component;
 import uk.ac.ebi.submission.store.common.ResourceLinkHelper;
+import uk.ac.ebi.submission.store.documentType.DocumentType;
 import uk.ac.ebi.submission.store.documentType.DocumentTypeSearchRelNames;
 import uk.ac.ebi.submission.store.submission.Submission;
-import uk.ac.ebi.submission.store.documentType.DocumentType;
 import uk.ac.ebi.submission.store.validationResult.ValidationResult;
 import uk.ac.ebi.submission.store.validationResult.ValidationResultRelNames;
 
@@ -77,8 +77,9 @@ public class SubmissionDocumentResourceProcessor implements ResourceProcessor<Re
                 ValidationResultRelNames.BY_DOCUMENT_ID
         );
         Map<String, String> expansionParams = new HashMap<>();
-        expansionParams.put("submittableId", submissionDocument.getId());
-        Link validationResultLink = unexpandedValidationResultLink.expand(expansionParams);
+        expansionParams.put("documentId", submissionDocument.getId());
+        Link validationResultLink = unexpandedValidationResultLink.expand(expansionParams)
+                .withRel(relProvider.getItemResourceRelFor(ValidationResult.class));
 
         resource.add(validationResultLink);
     }
@@ -90,7 +91,7 @@ public class SubmissionDocumentResourceProcessor implements ResourceProcessor<Re
                     DocumentTypeSearchRelNames.FIND_ONE_BY_NAME
             );
 
-            Map<String,String> expansionParams = new HashMap<>();
+            Map<String, String> expansionParams = new HashMap<>();
             expansionParams.put("typeName", submissionDocument.getDocumentType());
 
             String rel = relProvider.getItemResourceRelFor(DocumentType.class);

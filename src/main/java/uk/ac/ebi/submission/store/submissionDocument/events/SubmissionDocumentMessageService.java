@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class SubmittableMessageService {
+public class SubmissionDocumentMessageService {
 
     @NonNull
     private RabbitMessagingTemplate rabbitMessagingTemplate;

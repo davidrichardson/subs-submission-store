@@ -4,7 +4,25 @@
 
 == Link relations
 
+include::{snippets}/create-one-submission-document/links.adoc[]
+
 == Actions
+
+The actions block shows what you can currently do with the document.
+
+|===
+|Element|Description
+
+|`updateable`
+|`true` if you can make changes to this document (through PUT or PATCH requests to the document)
+
+|`deleteable`
+|`true` if you can delete this document
+
+|`statuses`
+|You can set the document `status` to one of these values.
+
+|===
 
 == List all documents in a submission
 
@@ -16,7 +34,43 @@
 
 == Add a document to a submission
 
+=== Request
+
+include::{snippets}/create-one-submission-document/curl-request.adoc[]
+
+=== Response
+
+include::{snippets}/create-one-submission-document/http-response.adoc[]
+
+== Update a submission document
+
+=== Request
+
+include::{snippets}/update-one-submission-document/curl-request.adoc[]
+
+=== Response
+
+include::{snippets}/update-one-submission-document/http-response.adoc[]
+
+== Patch a submission document
+
+=== Request
+
+include::{snippets}/patch-one-submission-document/curl-request.adoc[]
+
+=== Response
+
+include::{snippets}/patch-one-submission-document/http-response.adoc[]
+
 == Delete a submission document
+
+=== Request
+
+include::{snippets}/delete-one-submission-document/curl-request.adoc[]
+
+=== Response
+
+include::{snippets}/delete-one-submission-document/http-response.adoc[]
 
 == Summarise document statuses for a submission
 

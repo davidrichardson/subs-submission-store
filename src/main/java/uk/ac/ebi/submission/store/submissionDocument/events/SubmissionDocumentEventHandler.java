@@ -6,25 +6,40 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.stereotype.Component;
 import uk.ac.ebi.submission.store.common.CrudEvent;
+import uk.ac.ebi.submission.store.submission.Submission;
+import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentMongoRepository;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentStatusEnum;
 import uk.ac.ebi.submission.store.submissionDocument.extractors.FileRefExtractor;
 import uk.ac.ebi.submission.store.submissionDocument.extractors.RefExtractor;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
 @RepositoryEventHandler
 @RequiredArgsConstructor
 @Slf4j
-public class SubmittableEventHandler {
+public class SubmissionDocumentEventHandler {
 
     @NonNull private RefExtractor refExtractor;
     @NonNull private FileRefExtractor fileRefExtractor;
-    @NonNull private SubmittableMessageService submittableMessageService;
+    @NonNull private SubmissionDocumentMessageService submissionDocumentMessageService;
+    @NonNull private SubmissionMongoRepository submissionMongoRepository;
+    @NonNull private SubmissionDocumentMongoRepository submissionDocumentMongoRepository;
 
     @HandleBeforeCreate
     public void handleBeforeCreate(SubmissionDocument submissionDocument){
         submissionDocument.setId(UUID.randomUUID().toString());
+        submissionDocument.setStatus(SubmissionDocumentStatusEnum.Draft);
+
+        if (submissionDocument.getSubmissionId() != null){
+            Optional<Submission> submission = submissionMongoRepository.findById(submissionDocument.getSubmissionId());
+            if (submission.isPresent()){
+                submissionDocument.setTeam(submission.get().getTeam());
+            }
+        }
 
         log.debug("handle before create {}", submissionDocument);
         log.info("handle before create submissionDocument {}", submissionDocument.getId());
@@ -34,6 +49,22 @@ public class SubmittableEventHandler {
 
     @HandleBeforeSave
     public void handleBeforeSave(SubmissionDocument submissionDocument){
+        if (submissionDocument.getId() != null){
+            Optional<SubmissionDocument> optionalStoredVersion = submissionDocumentMongoRepository.findById(submissionDocument.getId());
+
+            if (optionalStoredVersion.isPresent()){
+                SubmissionDocument storedVersion = optionalStoredVersion.get();
+
+                submissionDocument.setSubmissionId( storedVersion.getSubmissionId() );
+                submissionDocument.setTeam( storedVersion.getTeam() );
+
+                if (submissionDocument.getStatus() == null){
+                    submissionDocument.setStatus( storedVersion.getStatus() );
+                }
+            }
+        }
+
+
         handleBeforeCreateOrSave(submissionDocument);
     }
 
@@ -42,7 +73,7 @@ public class SubmittableEventHandler {
         log.debug("handle after create {}", submissionDocument);
         log.info("handle after create submissionDocument {}", submissionDocument.getId());
 
-        submittableMessageService.notifyCrudEvent(submissionDocument, CrudEvent.created);
+        submissionDocumentMessageService.notifyCrudEvent(submissionDocument, CrudEvent.created);
     }
 
     @HandleAfterSave
@@ -50,7 +81,7 @@ public class SubmittableEventHandler {
         log.debug("handle after save {}", submissionDocument);
         log.info("handle after save submissionDocument {}", submissionDocument.getId());
 
-        submittableMessageService.notifyCrudEvent(submissionDocument, CrudEvent.updated);
+        submissionDocumentMessageService.notifyCrudEvent(submissionDocument, CrudEvent.updated);
     }
 
     @HandleAfterDelete
@@ -58,7 +89,7 @@ public class SubmittableEventHandler {
         log.debug("handle after save {}", submissionDocument);
         log.info("handle after delete submissionDocument {}", submissionDocument.getId());
 
-        submittableMessageService.notifyCrudEvent(submissionDocument, CrudEvent.deleted);
+        submissionDocumentMessageService.notifyCrudEvent(submissionDocument, CrudEvent.deleted);
     }
 
     public void handleBeforeCreateOrSave(SubmissionDocument submissionDocument){
