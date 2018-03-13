@@ -11,7 +11,7 @@ import uk.ac.ebi.submission.store.security.PreAuthorizeSubmissionIdTeamName;
 
 import java.util.Optional;
 
-
+@RestResource(exported = true)
 public interface ValidationResultMongoRepository extends MongoRepository<ValidationResult, String>, ValidationResultRepositoryCustom {
 
     @RestResource(exported = true, rel = ValidationResultRelNames.BY_DOCUMENT_ID)

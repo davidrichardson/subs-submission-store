@@ -9,8 +9,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.ac.ebi.submission.store.JsonHelper;
 import uk.ac.ebi.submission.store.common.CrudEvent;
+import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
 import uk.ac.ebi.submission.store.submissionDocument.Ref;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentMongoRepository;
 import uk.ac.ebi.submission.store.submissionDocument.UploadedFileRef;
 import uk.ac.ebi.submission.store.submissionDocument.extractors.FileRefExtractor;
 import uk.ac.ebi.submission.store.submissionDocument.extractors.RefExtractor;
@@ -35,6 +37,12 @@ public class SubmissionDocumentEventHandlerTest {
 
     @MockBean
     FileRefExtractor fileRefExtractor;
+
+    @MockBean
+    SubmissionDocumentMongoRepository submissionDocumentMongoRepository;
+
+    @MockBean
+    SubmissionMongoRepository submissionMongoRepository;
 
     @MockBean
     SubmissionDocumentMessageService submissionDocumentMessageService;

@@ -66,8 +66,8 @@ public class SubmissionDocumentResourceProcessorTest {
         typeLinkTemplate = new Link("/documentTypes/search/findOneByTypeName{?typeName}", "typeName");
         typeLink = new Link("/documentTypes/search/findOneByTypeName?typeName=TYPE_NAME", "documentType");
 
-        validationResultTemplatedLink = new Link(new UriTemplate("/validationResults/search/findOneBySubmittableId{?submittableId}"), "validationResult");
-        validationResultLink = new Link("/validationResults/search/findOneBySubmittableId?submittableId=DOC_ID", "validationResult");
+        validationResultTemplatedLink = new Link(new UriTemplate("/validationResults/search/findOneByDocumentId{?documentId}"), "validationResult");
+        validationResultLink = new Link("/validationResults/search/findOneByDocumentId?documentId=DOC_ID", "validationResult");
     }
 
 
@@ -78,6 +78,7 @@ public class SubmissionDocumentResourceProcessorTest {
         when(repositoryEntityLinks.linkToSearchResource(DocumentType.class, DocumentTypeSearchRelNames.FIND_ONE_BY_NAME)).thenReturn(typeLinkTemplate);
         when(repositoryEntityLinks.linkToSearchResource(ValidationResult.class, ValidationResultRelNames.BY_DOCUMENT_ID)).thenReturn(validationResultTemplatedLink);
         when(relProvider.getItemResourceRelFor(DocumentType.class)).thenReturn("documentType");
+        when(relProvider.getItemResourceRelFor(ValidationResult.class)).thenReturn("validationResult");
 
         when(submissionDocumentOperationControl.isChangeable(submissionDocument)).thenReturn(true);
 

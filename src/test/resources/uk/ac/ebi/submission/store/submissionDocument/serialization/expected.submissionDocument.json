@@ -13,10 +13,10 @@
     {"a": "b"},
     "could be anything"
   ],
-  "refs": [
+  "_refs": [
     {"refType": "samples", "accession": "a1", "uniqueName": "un1", "teamName": "self.testTeam", "sourceJsonPath": "$.['ref']"}
   ],
-  "uploadedFileRefs": [
+  "_uploadedFileRefs": [
     {"uploadedFile": "test.txt", "sourceJsonPath": "$.['file']"}
   ]
 }
