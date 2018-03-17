@@ -9,6 +9,7 @@ import lombok.ToString;
 import org.springframework.hateoas.Resource;
 import uk.ac.ebi.submission.store.common.model.AuditDetails;
 import uk.ac.ebi.submission.store.submission.Submission;
+import uk.ac.ebi.submission.store.submission.SubmissionStatus;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -33,7 +34,7 @@ public class SubmissionResource extends Resource<Submission> {
     public static class Actions {
         private boolean updateable;
         private boolean deleteable;
-        private final Set<String> statuses = new TreeSet<>();
+        private final Set<SubmissionStatus> statuses = new TreeSet<>();
     }
 
 }

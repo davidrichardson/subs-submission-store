@@ -18,7 +18,7 @@ import java.util.Map;
 public class SubmissionDocumentOperationControl {
 
     @NonNull
-    private Map<String, StatusDescription> documentStatusDescriptionMap;;
+    private Map<ProcessingStatus, StatusDescription> documentStatusDescriptionMap;
 
     @NonNull
     private SubmissionOperationControl submissionOperationControl;
@@ -28,11 +28,10 @@ public class SubmissionDocumentOperationControl {
     }
 
     private boolean isDocumentChangeable(SubmissionDocument submissionDocument) {
-        Assert.notNull(submissionDocument.getStatus(),"SubmissionDocument must have a status: "+ submissionDocument);
-        String statusName = submissionDocument.getStatus().name();
-        StatusDescription statusDescription = documentStatusDescriptionMap.get(statusName);
+        Assert.notNull(submissionDocument.getStatus(), "SubmissionDocument must have a status: " + submissionDocument);
+        StatusDescription statusDescription = documentStatusDescriptionMap.get(submissionDocument.getStatus());
 
-        Assert.notNull(statusDescription,"SubmissionDocument status must exist in config:  "+ submissionDocument);
+        Assert.notNull(statusDescription, "SubmissionDocument status must exist in config:  " + submissionDocument);
 
         return statusDescription.isAcceptingUpdates();
     }

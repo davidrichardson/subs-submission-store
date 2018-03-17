@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.Errors;
-import uk.ac.ebi.submission.store.common.model.StatusDescription;
 import uk.ac.ebi.submission.store.common.model.Team;
 import uk.ac.ebi.submission.store.config.StatusConfiguration;
 import uk.ac.ebi.submission.store.errors.SubsApiErrors;
@@ -17,7 +16,6 @@ import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.submission.SubmissionStatus;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 
-import java.util.Map;
 import java.util.Optional;
 
 @RunWith(SpringRunner.class)
@@ -26,9 +24,6 @@ public class BeforeSaveSubmissionValidatorTest {
 
     @Autowired
     private BeforeSaveSubmissionValidator validator;
-
-    @Autowired
-    private Map<SubmissionStatus, StatusDescription> submissionStatusDescriptionMap;
 
     @MockBean
     private SubmissionMongoRepository repository;

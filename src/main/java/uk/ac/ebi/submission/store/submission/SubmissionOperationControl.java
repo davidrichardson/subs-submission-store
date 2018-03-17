@@ -17,7 +17,7 @@ public class SubmissionOperationControl {
     private SubmissionMongoRepository submissionMongoRepository;
 
     @NonNull
-    private Map<String, StatusDescription> submissionStatusDescriptionMap;
+    private Map<SubmissionStatus, StatusDescription<SubmissionStatus>> submissionStatusDescriptionMap;
 
     public boolean isChangeable(Submission submission) {
         Assert.notNull(submission);
@@ -28,10 +28,8 @@ public class SubmissionOperationControl {
         return statusDescription.isAcceptingUpdates();
     }
 
-    private StatusDescription statusDescriptionForSubmission(Submission submission) {
-        String statusName = submission.getStatus().name();
-
-        return submissionStatusDescriptionMap.get(statusName);
+    private StatusDescription<SubmissionStatus> statusDescriptionForSubmission(Submission submission) {
+        return submissionStatusDescriptionMap.get(submission.getStatus());
     }
 
     public boolean isChangeable(String id) {
@@ -46,8 +44,8 @@ public class SubmissionOperationControl {
 
     }
 
-    public Collection<String> availableStatuses(Submission submission) {
-        StatusDescription statusDescription = statusDescriptionForSubmission(submission);
+    public Collection<SubmissionStatus> availableStatuses(Submission submission) {
+        StatusDescription<SubmissionStatus> statusDescription = statusDescriptionForSubmission(submission);
 
         return statusDescription.getUserTransitions();
     }

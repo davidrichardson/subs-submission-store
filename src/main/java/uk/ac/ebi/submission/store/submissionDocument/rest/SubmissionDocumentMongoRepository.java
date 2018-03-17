@@ -1,4 +1,4 @@
-package uk.ac.ebi.submission.store.submissionDocument;
+package uk.ac.ebi.submission.store.submissionDocument.rest;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,9 +8,11 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.method.P;
 import uk.ac.ebi.submission.store.security.*;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @RepositoryRestResource
 public interface SubmissionDocumentMongoRepository extends MongoRepository<SubmissionDocument, String>, SubmissionDocumentRepositoryCustom {
@@ -47,18 +49,33 @@ public interface SubmissionDocumentMongoRepository extends MongoRepository<Submi
     @RestResource(exported = false)
     List<SubmissionDocument> findBySubmissionId(String submissionId);
 
-    @RestResource(exported = true)
+    @RestResource(exported = false)
+    Stream<SubmissionDocument> streamBySubmissionId(String submissionId);
+
+    @RestResource(exported = true, rel = SubmissionDocumentSearchRelNames.BY_SUBMISSION_ID)
     @PreAuthorizeSubmissionIdTeamName
     Page<SubmissionDocument> findBySubmissionId(@P("submissionId") @Param("submissionId") String submissionId, Pageable pageable);
+
+    @RestResource(exported = true, rel = SubmissionDocumentSearchRelNames.BY_SUBMISSION_ID_AND_DOC_TYPE)
+    @PreAuthorizeSubmissionIdTeamName
+    Page<SubmissionDocument> findBySubmissionIdAndDocumentType(
+            @P("submissionId") @Param("submissionId") String submissionId,
+            @P("documentType") @Param("documentType") String documentType,
+            Pageable pageable
+    );
 
 
     @RestResource(exported = false)
     void deleteBySubmissionId(String submissionId);
 
     @RestResource(exported = true)
-    SubmissionDocument findOneBySubmissionIdAndUniqueNameAndDocumentType(String submissionId, String uniqueName, String documentType);
+    Optional<SubmissionDocument> findOneBySubmissionIdAndUniqueNameAndDocumentType(
+            String submissionId,
+            String uniqueName,
+            String documentType
+    );
 
-    default SubmissionDocument findOneBySubmissionIdAndUniqueNameAndDocumentType(SubmissionDocument exampleSubmissionDocument) {
+    default Optional<SubmissionDocument> findOneBySubmissionIdAndUniqueNameAndDocumentType(SubmissionDocument exampleSubmissionDocument) {
         return this.findOneBySubmissionIdAndUniqueNameAndDocumentType(
                 exampleSubmissionDocument.getSubmissionId(),
                 exampleSubmissionDocument.getUniqueName(),

@@ -16,8 +16,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import uk.ac.ebi.submission.store.documentType.DocumentTypeSearchRelNames;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.documentType.DocumentType;
+import uk.ac.ebi.submission.store.submissionDocument.rest.SubmissionDocumentResourceProcessor;
 import uk.ac.ebi.submission.store.validationResult.ValidationResult;
-import uk.ac.ebi.submission.store.validationResult.ValidationResultRelNames;
+import uk.ac.ebi.submission.store.validationResult.ValidationResultSearchRelNames;
 
 import java.util.Arrays;
 import java.util.List;
@@ -76,7 +77,7 @@ public class SubmissionDocumentResourceProcessorTest {
 
         when(repositoryEntityLinks.linkToSingleResource(Submission.class, "SUB_ID")).thenReturn(submissionLink);
         when(repositoryEntityLinks.linkToSearchResource(DocumentType.class, DocumentTypeSearchRelNames.FIND_ONE_BY_NAME)).thenReturn(typeLinkTemplate);
-        when(repositoryEntityLinks.linkToSearchResource(ValidationResult.class, ValidationResultRelNames.BY_DOCUMENT_ID)).thenReturn(validationResultTemplatedLink);
+        when(repositoryEntityLinks.linkToSearchResource(ValidationResult.class, ValidationResultSearchRelNames.BY_DOCUMENT_ID)).thenReturn(validationResultTemplatedLink);
         when(relProvider.getItemResourceRelFor(DocumentType.class)).thenReturn("documentType");
         when(relProvider.getItemResourceRelFor(ValidationResult.class)).thenReturn("validationResult");
 

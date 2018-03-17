@@ -1,4 +1,4 @@
-package uk.ac.ebi.submission.store.submissionDocument;
+package uk.ac.ebi.submission.store.submissionDocument.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.hateoas.Resource;
 import uk.ac.ebi.submission.store.common.model.AuditDetails;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
 
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)

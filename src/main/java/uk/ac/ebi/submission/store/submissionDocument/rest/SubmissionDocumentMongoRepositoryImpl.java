@@ -1,8 +1,9 @@
-package uk.ac.ebi.submission.store.submissionDocument;
+package uk.ac.ebi.submission.store.submissionDocument.rest;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
 
 import java.util.Collections;
 

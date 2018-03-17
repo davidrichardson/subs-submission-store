@@ -32,7 +32,8 @@ import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.submission.SubmissionStatus;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
-import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentMongoRepository;
+import uk.ac.ebi.submission.store.submissionDocument.rest.SubmissionDocumentMongoRepository;
+import uk.ac.ebi.submission.store.submissionDocument.rest.SubmissionDocumentSearchRelNames;
 import uk.ac.ebi.submission.store.validationResult.ValidationResultMongoRepository;
 
 import java.io.IOException;
@@ -159,6 +160,90 @@ public class SubmissionDocumentApiTest {
         SubmissionDocument submissionDocumentInDb = submissionDocumentMongoRepository.findAll().get(0);
         submissionDocument.setId(submissionDocumentInDb.getId());
 
+        // get one
+        this.mockMvc.perform(
+                get(entityLinks.linkForSingleResource(submissionDocument).toString())
+                        .accept(MediaTypes.HAL_JSON)
+        ).andExpect(status().isOk())
+                .andDo(
+                        document("get-one-submission-document",
+                                preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
+                                preprocessResponse(prettyPrint()),
+                                links(
+                                        halLinks(),
+                                        linkWithRel("curies").ignored(),
+                                        linkWithRel("self").ignored(),
+                                        linkWithRel("subs:submissionDocument").ignored(),
+                                        linkWithRel("subs:documentType").description("The document type for this resource"),
+                                        linkWithRel("subs:submission").description("The submission this resource forms part of"),
+                                        linkWithRel("subs:validationResult").description("The validation results for this resource")
+                                ),
+                                responseFields(
+                                        fieldWithPath("id").description(""),
+                                        subsectionWithPath("team").description("the team that owns this submission document"),
+                                        fieldWithPath("documentType").description(""),
+                                        fieldWithPath("status").description(""),
+                                        fieldWithPath("submissionId").description(""),
+                                        subsectionWithPath("content").description(""),
+                                        DocumentationHelper.linksResponseField(),
+                                        subsectionWithPath("_actions").description(""),
+                                        subsectionWithPath("_audit").description(""),
+                                        subsectionWithPath("_refs").description(""),
+                                        subsectionWithPath("_uploadedFileRefs").description("")
+                                )
+                        )
+                );
+
+        // fetch for submission
+        Link fetchForSubmission = entityLinks.linkToSearchResource(SubmissionDocument.class, SubmissionDocumentSearchRelNames.BY_SUBMISSION_ID);
+
+        this.mockMvc.perform(
+                get(fetchForSubmission.expand(submission.getId()).getHref())
+                        .accept(MediaTypes.HAL_JSON)
+        ).andExpect(status().isOk())
+                .andDo(
+                        document("get-all-submission-documents-for-submission",
+                                preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
+                                preprocessResponse(prettyPrint()),
+                                links(
+                                        halLinks(),
+                                        linkWithRel("curies").ignored(),
+                                        linkWithRel("self").ignored()
+                                ),
+                                responseFields(
+                                        subsectionWithPath("_embedded.subs:submissionDocuments").description("the submission documents matching the query"),
+                                        DocumentationHelper.linksResponseField(),
+                                        DocumentationHelper.paginationBlock()
+                                )
+                        )
+                );
+
+        // fetch for submission and type
+        Link fetchForSubmissionAndType = entityLinks.linkToSearchResource(SubmissionDocument.class, SubmissionDocumentSearchRelNames.BY_SUBMISSION_ID_AND_DOC_TYPE);
+
+        this.mockMvc.perform(
+                get(fetchForSubmissionAndType.expand(submission.getId(),submissionDocument.getDocumentType()).getHref())
+                        .accept(MediaTypes.HAL_JSON)
+        ).andExpect(status().isOk())
+                .andDo(
+                        document("get-all-submission-documents-for-submission-and-type",
+                                preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
+                                preprocessResponse(prettyPrint()),
+                                links(
+                                        halLinks(),
+                                        linkWithRel("curies").ignored(),
+                                        linkWithRel("self").ignored()
+                                ),
+                                responseFields(
+                                        subsectionWithPath("_embedded.subs:submissionDocuments").description("the submission documents matching the query"),
+                                        DocumentationHelper.linksResponseField(),
+                                        DocumentationHelper.paginationBlock()
+                                )
+                        )
+                );
+
+
+        //update one
         json = objectMapper.writeValueAsString(submissionDocument);
         Link updateLink = entityLinks.linkToSingleResource(submissionDocument);
 

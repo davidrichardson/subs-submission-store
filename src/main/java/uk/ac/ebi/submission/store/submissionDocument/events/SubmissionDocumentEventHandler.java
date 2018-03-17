@@ -9,7 +9,7 @@ import uk.ac.ebi.submission.store.common.CrudEvent;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
-import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentMongoRepository;
+import uk.ac.ebi.submission.store.submissionDocument.rest.SubmissionDocumentMongoRepository;
 import uk.ac.ebi.submission.store.submissionDocument.ProcessingStatus;
 import uk.ac.ebi.submission.store.submissionDocument.extractors.FileRefExtractor;
 import uk.ac.ebi.submission.store.submissionDocument.extractors.RefExtractor;

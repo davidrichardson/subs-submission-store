@@ -1,4 +1,4 @@
-package uk.ac.ebi.submission.store.submissionDocument;
+package uk.ac.ebi.submission.store.submissionDocument.rest;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +13,10 @@ import uk.ac.ebi.submission.store.common.ResourceLinkHelper;
 import uk.ac.ebi.submission.store.documentType.DocumentType;
 import uk.ac.ebi.submission.store.documentType.DocumentTypeSearchRelNames;
 import uk.ac.ebi.submission.store.submission.Submission;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
+import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentOperationControl;
 import uk.ac.ebi.submission.store.validationResult.ValidationResult;
-import uk.ac.ebi.submission.store.validationResult.ValidationResultRelNames;
+import uk.ac.ebi.submission.store.validationResult.ValidationResultSearchRelNames;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,7 +76,7 @@ public class SubmissionDocumentResourceProcessor implements ResourceProcessor<Re
     private void addValidationResultLink(Resource<SubmissionDocument> resource, SubmissionDocument submissionDocument) {
         Link unexpandedValidationResultLink = repositoryEntityLinks.linkToSearchResource(
                 ValidationResult.class,
-                ValidationResultRelNames.BY_DOCUMENT_ID
+                ValidationResultSearchRelNames.BY_DOCUMENT_ID
         );
         Map<String, String> expansionParams = new HashMap<>();
         expansionParams.put("documentId", submissionDocument.getId());

@@ -1,7 +1,7 @@
 package uk.ac.ebi.submission.store.submissionDocument.validation;
 
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
-import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentMongoRepository;
+import uk.ac.ebi.submission.store.submissionDocument.rest.SubmissionDocumentMongoRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -14,7 +14,7 @@ import java.util.Optional;
 @RestResource(exported = true)
 public interface ValidationResultMongoRepository extends MongoRepository<ValidationResult, String>, ValidationResultRepositoryCustom {
 
-    @RestResource(exported = true, rel = ValidationResultRelNames.BY_DOCUMENT_ID)
+    @RestResource(exported = true, rel = ValidationResultSearchRelNames.BY_DOCUMENT_ID)
     ValidationResult findOneByDocumentId(@Param("documentId") String documentId);
 
 

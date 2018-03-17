@@ -212,7 +212,8 @@ public class SubmissionApiTest {
                                         halLinks(),
                                         linkWithRel("subs:submission").ignored(),
                                         linkWithRel("curies").ignored(),
-                                        linkWithRel("self").ignored()
+                                        linkWithRel("self").ignored(),
+                                        linkWithRel("subs:submissionDocuments").description("Templated links to documents for this submission")
                                 ),
                                 responseFields(
                                         fieldWithPath("id").ignored(),
@@ -253,7 +254,8 @@ public class SubmissionApiTest {
                                         halLinks(),
                                         linkWithRel("subs:submission").ignored(),
                                         linkWithRel("curies").ignored(),
-                                        linkWithRel("self").ignored()
+                                        linkWithRel("self").ignored(),
+                                        linkWithRel("subs:submissionDocuments").description("Templated links to documents for this submission")
                                 ),
                                 responseFields(
                                         fieldWithPath("id").ignored(),
@@ -296,7 +298,8 @@ public class SubmissionApiTest {
                                         halLinks(),
                                         linkWithRel("subs:submission").ignored(),
                                         linkWithRel("curies").ignored(),
-                                        linkWithRel("self").ignored()
+                                        linkWithRel("self").ignored(),
+                                        linkWithRel("subs:submissionDocuments").description("Templated links to documents for this submission")
                                 ),
                                 responseFields(
                                         fieldWithPath("id").ignored(),
@@ -345,7 +348,8 @@ public class SubmissionApiTest {
                                         halLinks(),
                                         linkWithRel("subs:submission").ignored(),
                                         linkWithRel("curies").ignored(),
-                                        linkWithRel("self").ignored()
+                                        linkWithRel("self").ignored(),
+                                        linkWithRel("subs:submissionDocuments").description("Templated links to documents for this submission")
                                 ),
                                 responseFields(
                                         fieldWithPath("id").ignored(),
@@ -388,7 +392,8 @@ public class SubmissionApiTest {
                                         halLinks(),
                                         linkWithRel("subs:submission").ignored(),
                                         linkWithRel("curies").ignored(),
-                                        linkWithRel("self").ignored()
+                                        linkWithRel("self").ignored(),
+                                        linkWithRel("subs:submissionDocuments").description("Templated links to documents for this submission")
                                 ),
                                 responseFields(
                                         fieldWithPath("id").ignored(),

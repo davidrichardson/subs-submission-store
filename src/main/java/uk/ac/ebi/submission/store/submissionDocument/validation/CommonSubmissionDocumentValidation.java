@@ -10,7 +10,7 @@ import uk.ac.ebi.submission.store.documentType.DocumentType;
 import uk.ac.ebi.submission.store.documentType.DocumentTypeMongoRepository;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.submission.SubmissionOperationControl;
-import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentMongoRepository;
+import uk.ac.ebi.submission.store.submissionDocument.rest.SubmissionDocumentMongoRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -105,9 +105,9 @@ public class CommonSubmissionDocumentValidation {
                 && submissionDocument.getSubmissionId() != null
                 && submissionDocument.getDocumentType() != null) {
 
-            SubmissionDocument existingSubmissionDocument = submissionDocumentMongoRepository.findOneBySubmissionIdAndUniqueNameAndDocumentType(submissionDocument);
+            Optional<SubmissionDocument> existingSubmissionDocument = submissionDocumentMongoRepository.findOneBySubmissionIdAndUniqueNameAndDocumentType(submissionDocument);
 
-            if (!existingSubmissionDocument.getId().equals(submissionDocument.getId())) {
+            if (existingSubmissionDocument.isPresent() && !existingSubmissionDocument.get().getId().equals(submissionDocument.getId())) {
                 SubsApiErrors.already_exists.addError(errors);
             }
         }

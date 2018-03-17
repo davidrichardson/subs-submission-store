@@ -26,7 +26,24 @@ The actions block shows what you can currently do with the document.
 
 == List all documents in a submission
 
+=== Request
+
+include::{snippets}/get-all-submission-documents-for-submission/curl-request.adoc[]
+
+=== Response
+
+include::{snippets}/get-all-submission-documents-for-submission/http-response.adoc[]
+
+
 == List documents of one type in a submission
+
+=== Request
+
+include::{snippets}/get-all-submission-documents-for-submission-and-type/curl-request.adoc[]
+
+=== Response
+
+include::{snippets}/get-all-submission-documents-for-submission-and-type/http-response.adoc[]
 
 == Get a single submission document by ID
 
