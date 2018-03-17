@@ -48,7 +48,7 @@ public class SubmissionDocument implements Identifiable<String>, Audited {
 
     private String documentType;
 
-    private SubmissionDocumentStatusEnum status;
+    private ProcessingStatus status;
 
     @JsonRawValue
     private String content;

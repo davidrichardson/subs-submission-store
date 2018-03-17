@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.data.annotation.*;
 import uk.ac.ebi.submission.store.common.model.Submitter;
 import uk.ac.ebi.submission.store.common.model.Team;
-import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentStatusEnum;
+import uk.ac.ebi.submission.store.submissionDocument.ProcessingStatus;
 import uk.ac.ebi.submission.store.submissionDocument.Ref;
 import uk.ac.ebi.submission.store.submissionDocument.UploadedFileRef;
 
@@ -36,7 +36,7 @@ public class ArchivedDocument {
     private String accession;
 
 
-    private SubmissionDocumentStatusEnum status;
+    private ProcessingStatus status;
 
     @JsonRawValue
     private String content;

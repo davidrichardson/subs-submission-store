@@ -38,7 +38,7 @@ public class RefExtractor {
     private static final Configuration valueProviderConfiguration = ExtractorJsonPathConfig.valueProviderConfiguration();
 
     private Collection<Ref> extractRefs(ReadContext pathReadDocument, ReadContext valueReadContext) {
-        log.info("Extracting refs from submissionDocument");
+
         log.debug("Extracting refs from submissionDocument {}", pathReadDocument);
 
         final Set<Ref> refs = new HashSet<>();
@@ -65,13 +65,13 @@ public class RefExtractor {
         }
 
         log.debug("Converting string to json {}", document);
-        log.info("Converting string to json");
+
 
         try {
             ReadContext pathReadContext = JsonPath.using(pathListConfiguration).parse(document);
             ReadContext valueReadContext = JsonPath.using(valueProviderConfiguration).parse(document);
 
-            log.info("Converted string to json");
+
             return this.extractRefs(pathReadContext, valueReadContext);
         } catch (InvalidJsonException e) {
             log.debug("invalid json submissionDocument");

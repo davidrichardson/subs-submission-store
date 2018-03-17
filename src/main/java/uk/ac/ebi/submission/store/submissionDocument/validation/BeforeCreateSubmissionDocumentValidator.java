@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-@Component("beforeCreateSubmittableValidator")
+@Component("beforeCreateSubmissionDocumentValidator")
 @RequiredArgsConstructor
 @Slf4j
-public class BeforeCreateSubmittableValidator implements Validator {
+public class BeforeCreateSubmissionDocumentValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -24,16 +24,16 @@ public class BeforeCreateSubmittableValidator implements Validator {
     private SubmissionDocumentMongoRepository submissionDocumentMongoRepository;
 
     @NonNull
-    private CommonSubmittableValidation commonSubmittableValidation;
+    private CommonSubmissionDocumentValidation commonSubmissionDocumentValidation;
 
     @Override
     public void validate(@Nullable Object target, Errors errors) {
         SubmissionDocument submissionDocument = (SubmissionDocument) target;
 
         log.debug("Before create validation of submissionDocument {}", submissionDocument);
-        log.info("Before create validation of submissionDocument {}", submissionDocument.getId());
 
-        commonSubmittableValidation.validate(submissionDocument, errors);
+
+        commonSubmissionDocumentValidation.validate(submissionDocument, errors);
 
         //TODO if alias exists for refType + team, ensure consistent with existing record (refType, alias)
         //TODO check that there's at mose only one incomplete version of the record being edited

@@ -11,10 +11,10 @@ import uk.ac.ebi.submission.dispatch.model.SubmissionEnvelope;
 import uk.ac.ebi.submission.store.JsonHelper;
 import uk.ac.ebi.submission.store.common.model.Submitter;
 import uk.ac.ebi.submission.store.common.model.Team;
-import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentStatusEnum;
+import uk.ac.ebi.submission.store.submissionDocument.ProcessingStatus;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
-import uk.ac.ebi.submission.store.submission.SubmissionStatusEnum;
+import uk.ac.ebi.submission.store.submission.SubmissionStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -62,7 +62,7 @@ public class SubmissionEnvelopeSerializationTest {
         submissionDocument.setTeam(Team.of("subs.testTeam"));
         submissionDocument.setUniqueName(uniqueName);
         submissionDocument.setDocumentType(documentType);
-        submissionDocument.setStatus(SubmissionDocumentStatusEnum.Completed);
+        submissionDocument.setStatus(ProcessingStatus.Completed);
         submissionDocument.setContent(JsonHelper.stringToJsonNode("{\"key\": \"value\"}"));
         return submissionDocument;
     }
@@ -73,7 +73,7 @@ public class SubmissionEnvelopeSerializationTest {
         submission.setSubmitter(Submitter.of("alice@thing.ac.uk", null));
         submission.setTeam(Team.of("subs.testTeam"));
         submission.setTitle("A wonderful test submission");
-        submission.setStatus(SubmissionStatusEnum.Submitted);
+        submission.setStatus(SubmissionStatus.Submitted);
         return submission;
     }
 }

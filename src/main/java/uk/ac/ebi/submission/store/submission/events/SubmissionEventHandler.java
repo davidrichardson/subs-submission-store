@@ -7,9 +7,8 @@ import org.springframework.data.rest.core.annotation.*;
 import org.springframework.stereotype.Component;
 import uk.ac.ebi.submission.store.common.CrudEvent;
 import uk.ac.ebi.submission.store.submission.Submission;
-import uk.ac.ebi.submission.store.submission.events.SubmissionMessageService;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
-import uk.ac.ebi.submission.store.submission.SubmissionStatusEnum;
+import uk.ac.ebi.submission.store.submission.SubmissionStatus;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -29,15 +28,15 @@ public class SubmissionEventHandler {
     @HandleBeforeCreate
     public void handleBeforeCreate(Submission submission){
         submission.setId(UUID.randomUUID().toString());
-        submission.setStatus(SubmissionStatusEnum.Draft);
+        submission.setStatus(SubmissionStatus.Draft);
         log.debug("handle before create {}",submission);
-        log.info("handle before create submission {}",submission.getId());
+
     }
 
     @HandleAfterCreate
     public void handleAfterCreate(Submission submission) {
         log.debug("handle after create {}", submission);
-        log.info("handle after create submission {}", submission.getId());
+
 
         submissionMessageService.notifyCrudEvent(submission, CrudEvent.created);
     }
@@ -45,7 +44,7 @@ public class SubmissionEventHandler {
     @HandleAfterDelete
     public void handleAfterDelete(Submission submission) {
         log.debug("handle after create {}", submission);
-        log.info("handle after create submission {}", submission.getId());
+
 
         submissionMessageService.notifyCrudEvent(submission, CrudEvent.deleted);
     }
@@ -61,7 +60,7 @@ public class SubmissionEventHandler {
     @HandleAfterSave
     public void handleAfterUpdate(Submission submission) {
         log.debug("handle after create {}", submission);
-        log.info("handle after create submission {}", submission.getId());
+
 
         submissionMessageService.notifyCrudEvent(submission, CrudEvent.updated);
     }

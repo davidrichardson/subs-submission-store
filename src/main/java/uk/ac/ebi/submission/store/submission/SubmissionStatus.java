@@ -1,6 +1,6 @@
 package uk.ac.ebi.submission.store.submission;
 
-public enum SubmissionStatusEnum {
+public enum SubmissionStatus {
     Draft,
     Submitted,
     Processing,

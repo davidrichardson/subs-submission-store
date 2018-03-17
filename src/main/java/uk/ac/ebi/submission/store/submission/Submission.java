@@ -40,7 +40,7 @@ public class Submission implements Identifiable<String>, Audited {
     private Team team;
 
     private String title;
-    private SubmissionStatusEnum status;
+    private SubmissionStatus status;
 
     @JsonRawValue
     @JsonProperty("_uiData")

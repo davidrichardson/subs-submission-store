@@ -10,7 +10,7 @@ import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentMongoRepository;
-import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentStatusEnum;
+import uk.ac.ebi.submission.store.submissionDocument.ProcessingStatus;
 import uk.ac.ebi.submission.store.submissionDocument.extractors.FileRefExtractor;
 import uk.ac.ebi.submission.store.submissionDocument.extractors.RefExtractor;
 
@@ -32,7 +32,7 @@ public class SubmissionDocumentEventHandler {
     @HandleBeforeCreate
     public void handleBeforeCreate(SubmissionDocument submissionDocument){
         submissionDocument.setId(UUID.randomUUID().toString());
-        submissionDocument.setStatus(SubmissionDocumentStatusEnum.Draft);
+        submissionDocument.setStatus(ProcessingStatus.Draft);
 
         if (submissionDocument.getSubmissionId() != null){
             Optional<Submission> submission = submissionMongoRepository.findById(submissionDocument.getSubmissionId());
@@ -42,7 +42,7 @@ public class SubmissionDocumentEventHandler {
         }
 
         log.debug("handle before create {}", submissionDocument);
-        log.info("handle before create submissionDocument {}", submissionDocument.getId());
+
 
         handleBeforeCreateOrSave(submissionDocument);
     }
@@ -71,7 +71,7 @@ public class SubmissionDocumentEventHandler {
     @HandleAfterCreate
     public void handleAfterCreate(SubmissionDocument submissionDocument){
         log.debug("handle after create {}", submissionDocument);
-        log.info("handle after create submissionDocument {}", submissionDocument.getId());
+
 
         submissionDocumentMessageService.notifyCrudEvent(submissionDocument, CrudEvent.created);
     }
@@ -79,7 +79,7 @@ public class SubmissionDocumentEventHandler {
     @HandleAfterSave
     public void handleAfterUpdate(SubmissionDocument submissionDocument){
         log.debug("handle after save {}", submissionDocument);
-        log.info("handle after save submissionDocument {}", submissionDocument.getId());
+
 
         submissionDocumentMessageService.notifyCrudEvent(submissionDocument, CrudEvent.updated);
     }
@@ -87,7 +87,7 @@ public class SubmissionDocumentEventHandler {
     @HandleAfterDelete
     public void handleAfterDelete(SubmissionDocument submissionDocument){
         log.debug("handle after save {}", submissionDocument);
-        log.info("handle after delete submissionDocument {}", submissionDocument.getId());
+
 
         submissionDocumentMessageService.notifyCrudEvent(submissionDocument, CrudEvent.deleted);
     }

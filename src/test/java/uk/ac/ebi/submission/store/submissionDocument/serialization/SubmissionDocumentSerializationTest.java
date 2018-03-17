@@ -12,7 +12,7 @@ import uk.ac.ebi.submission.store.common.model.Submitter;
 import uk.ac.ebi.submission.store.common.model.Team;
 import uk.ac.ebi.submission.store.submissionDocument.Ref;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
-import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentStatusEnum;
+import uk.ac.ebi.submission.store.submissionDocument.ProcessingStatus;
 import uk.ac.ebi.submission.store.submissionDocument.UploadedFileRef;
 
 import java.util.Arrays;
@@ -52,7 +52,7 @@ public class SubmissionDocumentSerializationTest {
         s.setSubmissionId("s456");
         s.setUniqueName("my-sample");
         s.setDocumentType("samples");
-        s.setStatus(SubmissionDocumentStatusEnum.Draft);
+        s.setStatus(ProcessingStatus.Draft);
         s.setContent(JsonHelper.stringToJsonNode("[{\"a\": \"b\"},\"could be anything\"]"));
         s.setRefs(Arrays.asList(
                 ref()

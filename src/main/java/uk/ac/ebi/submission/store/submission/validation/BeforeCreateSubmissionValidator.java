@@ -19,6 +19,6 @@ public class BeforeCreateSubmissionValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        log.info("{}",target);
+
     }
 }

@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-@Component("beforeDeleteSubmittableValidator")
+@Component("beforeDeleteSubmissionDocumentValidator")
 @RequiredArgsConstructor
 @Slf4j
-public class BeforeDeleteSubmittableValidator implements Validator {
+public class BeforeDeleteSubmissionDocumentValidator implements Validator {
 
     @NonNull
-    private CommonSubmittableValidation commonSubmittableValidation;
+    private CommonSubmissionDocumentValidation commonSubmissionDocumentValidation;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -26,9 +26,8 @@ public class BeforeDeleteSubmittableValidator implements Validator {
         SubmissionDocument submissionDocument = (SubmissionDocument) target;
 
         log.debug("Before delete validation of submissionDocument {}", submissionDocument);
-        log.info("Before delete validation of submissionDocument {}", submissionDocument.getId());
 
-        commonSubmittableValidation.submissionStatusCheck(submissionDocument, errors);
-        commonSubmittableValidation.submittableStatusCheck(submissionDocument, errors);
+        commonSubmissionDocumentValidation.submissionStatusCheck(submissionDocument, errors);
+        commonSubmissionDocumentValidation.submittableStatusCheck(submissionDocument, errors);
     }
 }

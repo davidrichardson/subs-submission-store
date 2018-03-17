@@ -26,7 +26,7 @@ import uk.ac.ebi.submission.SubmissionsApplication;
 import uk.ac.ebi.submission.store.TestUserAndTeamNames;
 import uk.ac.ebi.submission.store.common.model.Team;
 import uk.ac.ebi.submission.store.submission.Submission;
-import uk.ac.ebi.submission.store.submission.SubmissionStatusEnum;
+import uk.ac.ebi.submission.store.submission.SubmissionStatus;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionController;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionSearchRelNames;
@@ -114,8 +114,8 @@ public class SubmissionApiTest {
     public void list_submissions_for_a_team() throws Exception {
 
         //prep data
-        addSubmissionToDb("My 1st submission", SubmissionStatusEnum.Completed);
-        addSubmissionToDb("My 2nd submission", SubmissionStatusEnum.Draft);
+        addSubmissionToDb("My 1st submission", SubmissionStatus.Completed);
+        addSubmissionToDb("My 2nd submission", SubmissionStatus.Draft);
 
 
         //prep request url
@@ -154,8 +154,8 @@ public class SubmissionApiTest {
     public void list_submissions_for_a_user() throws Exception {
 
         //prep data
-        addSubmissionToDb("My 1st submission", SubmissionStatusEnum.Completed);
-        addSubmissionToDb("My 2nd submission", SubmissionStatusEnum.Draft);
+        addSubmissionToDb("My 1st submission", SubmissionStatus.Completed);
+        addSubmissionToDb("My 2nd submission", SubmissionStatus.Draft);
 
 
         //prep request url
@@ -193,7 +193,7 @@ public class SubmissionApiTest {
     @Test
     public void get_a_single_submission() throws Exception {
         //prep data
-        Submission submission = addSubmissionToDb("My 1st submission", SubmissionStatusEnum.Completed);
+        Submission submission = addSubmissionToDb("My 1st submission", SubmissionStatus.Completed);
 
         //prep request url
         Link searchLink = repositoryEntityLinks
@@ -271,7 +271,7 @@ public class SubmissionApiTest {
     @Test
     public void patch_a_single_submission() throws Exception {
         //prep data
-        Submission submission = addSubmissionToDb("My 1st submission", SubmissionStatusEnum.Draft);
+        Submission submission = addSubmissionToDb("My 1st submission", SubmissionStatus.Draft);
 
         //prep request url
         Link resourceLink = repositoryEntityLinks
@@ -314,7 +314,7 @@ public class SubmissionApiTest {
     @Test
     public void update_a_single_submission() throws Exception {
         //prep data
-        Submission submission = addSubmissionToDb("My 1st submission", SubmissionStatusEnum.Draft);
+        Submission submission = addSubmissionToDb("My 1st submission", SubmissionStatus.Draft);
 
         //prep request url
         Link resourceLink = repositoryEntityLinks
@@ -363,7 +363,7 @@ public class SubmissionApiTest {
     @Test
     public void submit_a_single_submission() throws Exception {
         //prep data
-        Submission submission = addSubmissionToDb("My 1st submission", SubmissionStatusEnum.Draft);
+        Submission submission = addSubmissionToDb("My 1st submission", SubmissionStatus.Draft);
 
         //prep request url
         Link resourceLink = repositoryEntityLinks
@@ -406,7 +406,7 @@ public class SubmissionApiTest {
     @Test
     public void delete_a_single_submission() throws Exception {
         //prep data
-        Submission submission = addSubmissionToDb("My 1st submission", SubmissionStatusEnum.Draft);
+        Submission submission = addSubmissionToDb("My 1st submission", SubmissionStatus.Draft);
 
         //prep request url
         Link resourceLink = repositoryEntityLinks
@@ -430,10 +430,10 @@ public class SubmissionApiTest {
 
 
         //prep data
-        Map<SubmissionStatusEnum, Integer> statusCounts = ImmutableMap.<SubmissionStatusEnum, Integer>builder()
-                .put(SubmissionStatusEnum.Completed, 4)
-                .put(SubmissionStatusEnum.Processing, 1)
-                .put(SubmissionStatusEnum.Draft, 1)
+        Map<SubmissionStatus, Integer> statusCounts = ImmutableMap.<SubmissionStatus, Integer>builder()
+                .put(SubmissionStatus.Completed, 4)
+                .put(SubmissionStatus.Processing, 1)
+                .put(SubmissionStatus.Draft, 1)
                 .build();
 
         statusCounts.entrySet().stream()
@@ -468,16 +468,16 @@ public class SubmissionApiTest {
                                         linkWithRel("self").ignored()
                                 ),
                                 responseFields(
-                                        fieldWithPath("content." + SubmissionStatusEnum.Completed.name()).description("Number of completed submissions"),
-                                        fieldWithPath("content." + SubmissionStatusEnum.Processing.name()).description("Number of submissions currently being processed"),
-                                        fieldWithPath("content." + SubmissionStatusEnum.Draft.name()).description("Number of submissions in draft"),
+                                        fieldWithPath("content." + SubmissionStatus.Completed.name()).description("Number of completed submissions"),
+                                        fieldWithPath("content." + SubmissionStatus.Processing.name()).description("Number of submissions currently being processed"),
+                                        fieldWithPath("content." + SubmissionStatus.Draft.name()).description("Number of submissions in draft"),
                                         DocumentationHelper.linksResponseField()
                                 )
                         )
                 );
     }
 
-    private Submission addSubmissionToDb(String title, SubmissionStatusEnum statusEnum) {
+    private Submission addSubmissionToDb(String title, SubmissionStatus statusEnum) {
         Submission s = new Submission();
 
         s.setTitle(title);

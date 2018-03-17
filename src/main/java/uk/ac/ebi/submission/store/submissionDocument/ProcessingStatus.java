@@ -1,6 +1,6 @@
 package uk.ac.ebi.submission.store.submissionDocument;
 
-public enum SubmissionDocumentStatusEnum {
+public enum ProcessingStatus {
     Draft, /* exists in the usi system */
     Submitted, /* user has Submitted submissionDocument */
     Dispatched, /* usi has dispatched object to archive */

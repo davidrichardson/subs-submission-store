@@ -56,13 +56,13 @@ public class FileRefExtractor {
         }
 
         log.debug("Converting string to json {}", document);
-        log.info("Converting string to json");
+
 
         try {
             ReadContext pathReadContext = JsonPath.using(pathListConfiguration).parse(document);
             ReadContext valueReadContext = JsonPath.using(valueProviderConfiguration).parse(document);
 
-            log.info("Converted string to json");
+
             return this.extractFileRefs(pathReadContext, valueReadContext);
         } catch (InvalidJsonException e) {
             log.debug("invalid json submissionDocument");

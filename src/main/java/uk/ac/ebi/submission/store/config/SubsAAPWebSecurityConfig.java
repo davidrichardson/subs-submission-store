@@ -45,13 +45,13 @@ public class SubsAAPWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private TokenAuthenticationService tokenAuthenticationService;
 
     private StatelessAuthenticationFilter statelessAuthenticationFilterBean() throws Exception {
-        log.info("this.tokenAuthenticationService: " + this.tokenAuthenticationService);
+
         return new StatelessAuthenticationFilter(this.tokenAuthenticationService);
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        log.info("[StatelessAuthenticationEntryPoint]- " + unauthorizedHandler);
+
 
         httpSecurity
                 // we don't need CSRF because our token is invulnerable

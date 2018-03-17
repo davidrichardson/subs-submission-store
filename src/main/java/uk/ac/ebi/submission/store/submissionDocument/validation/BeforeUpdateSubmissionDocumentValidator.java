@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-@Component("beforeUpdateSubmittableValidator")
+@Component("beforeUpdateSubmissionDocumentValidator")
 @RequiredArgsConstructor
-public class BeforeUpdateSubmittableValidator implements Validator {
+public class BeforeUpdateSubmissionDocumentValidator implements Validator {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -22,7 +22,7 @@ public class BeforeUpdateSubmittableValidator implements Validator {
     }
 
     @NonNull
-    private CommonSubmittableValidation commonSubmittableValidation;
+    private CommonSubmissionDocumentValidation commonSubmissionDocumentValidation;
 
     @Override
     public void validate(@Nullable Object target, Errors errors) {
@@ -31,7 +31,7 @@ public class BeforeUpdateSubmittableValidator implements Validator {
         logger.debug("Before update validation of submissionDocument {}", submissionDocument);
         logger.info("Before update validation of submissionDocument {}", submissionDocument.getId());
 
-        commonSubmittableValidation.validate(submissionDocument,errors);
+        commonSubmissionDocumentValidation.validate(submissionDocument,errors);
 
     }
 }

@@ -12,16 +12,16 @@ import org.springframework.validation.Errors;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = BeforeDeleteSubmittableValidator.class)
+@SpringBootTest(classes = BeforeDeleteSubmissionDocumentValidator.class)
 public class BeforeDeleteSubmissionDocumentValidatorTest {
 
     @Autowired
-    private BeforeDeleteSubmittableValidator validator;
+    private BeforeDeleteSubmissionDocumentValidator validator;
 
     private SubmissionDocument submissionDocument;
 
     @MockBean
-    private CommonSubmittableValidation commonSubmittableValidation;
+    private CommonSubmissionDocumentValidation commonSubmissionDocumentValidation;
 
     @MockBean
     private Errors errors;
@@ -36,7 +36,7 @@ public class BeforeDeleteSubmissionDocumentValidatorTest {
     public void testDeleteValidation() {
         validator.validate(submissionDocument, errors);
 
-        Mockito.verify(commonSubmittableValidation).submissionStatusCheck(submissionDocument, errors);
-        Mockito.verify(commonSubmittableValidation).submittableStatusCheck(submissionDocument, errors);
+        Mockito.verify(commonSubmissionDocumentValidation).submissionStatusCheck(submissionDocument, errors);
+        Mockito.verify(commonSubmissionDocumentValidation).submittableStatusCheck(submissionDocument, errors);
     }
 }

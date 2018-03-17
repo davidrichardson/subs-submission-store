@@ -22,7 +22,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class CommonSubmittableValidation {
+public class CommonSubmissionDocumentValidation {
 
     @NonNull
     private SubmissionDocumentMongoRepository submissionDocumentMongoRepository;
@@ -41,7 +41,7 @@ public class CommonSubmittableValidation {
 
     public void validate(SubmissionDocument submissionDocument, Errors errors) {
         log.debug("common validation of submissionDocument {}", submissionDocument);
-        log.info("common validation of submissionDocument {}", submissionDocument.getId());
+
 
 
         minimalDocumentCheck(submissionDocument, errors);

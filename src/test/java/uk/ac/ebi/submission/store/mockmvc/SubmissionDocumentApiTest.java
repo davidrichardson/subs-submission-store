@@ -29,7 +29,7 @@ import uk.ac.ebi.submission.store.common.model.Team;
 import uk.ac.ebi.submission.store.documentType.DocumentType;
 import uk.ac.ebi.submission.store.documentType.DocumentTypeMongoRepository;
 import uk.ac.ebi.submission.store.submission.Submission;
-import uk.ac.ebi.submission.store.submission.SubmissionStatusEnum;
+import uk.ac.ebi.submission.store.submission.SubmissionStatus;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocumentMongoRepository;
@@ -94,7 +94,7 @@ public class SubmissionDocumentApiTest {
 
         //submission
         submission.setTeam(Team.of(TestUserAndTeamNames.TEAM_NAME));
-        submission.setStatus(SubmissionStatusEnum.Draft);
+        submission.setStatus(SubmissionStatus.Draft);
         submissionMongoRepository.insert(submission);
 
         //documenttyoe
