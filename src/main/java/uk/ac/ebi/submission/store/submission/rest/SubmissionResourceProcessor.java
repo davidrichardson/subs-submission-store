@@ -10,6 +10,7 @@ import uk.ac.ebi.submission.store.common.ResourceLinkHelper;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.submission.SubmissionOperationControl;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
+import uk.ac.ebi.submission.store.submissionDocument.rest.SubmissionDocumentController;
 import uk.ac.ebi.submission.store.submissionDocument.rest.SubmissionDocumentSearchRelNames;
 
 import java.net.URI;
@@ -17,6 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @Component
 @RequiredArgsConstructor
@@ -51,11 +55,21 @@ public class SubmissionResourceProcessor implements ResourceProcessor<Resource<S
                 linkToSubmissionDocuments(resource.getContent())
         );
 
+        submissionResource.add(
+                linkToStatusSummary(resource.getContent())
+        );
+
         ResourceLinkHelper.sortResourceLinksAlphabeticallyByRelName(submissionResource);
 
         log.debug("Converted resource to {}", submissionResource);
 
         return submissionResource;
+    }
+
+    private Link linkToStatusSummary(Submission submission) {
+        return linkTo(
+                methodOn(SubmissionDocumentController.class)
+                        .summariseDocumentStatus(submission.getId())).withRel("documentStatusSummary");
     }
 
     private Link linkToSubmissionDocuments(Submission submission) {

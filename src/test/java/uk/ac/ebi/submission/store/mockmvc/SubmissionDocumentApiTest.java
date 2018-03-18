@@ -12,7 +12,6 @@ import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
@@ -33,15 +32,22 @@ import uk.ac.ebi.submission.store.documentType.DocumentType;
 import uk.ac.ebi.submission.store.documentType.DocumentTypeMongoRepository;
 import uk.ac.ebi.submission.store.submission.Submission;
 import uk.ac.ebi.submission.store.submission.SubmissionStatus;
+import uk.ac.ebi.submission.store.submission.rest.SubmissionController;
 import uk.ac.ebi.submission.store.submission.rest.SubmissionMongoRepository;
+import uk.ac.ebi.submission.store.submissionDocument.ProcessingStatus;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
+import uk.ac.ebi.submission.store.submissionDocument.rest.SubmissionDocumentController;
 import uk.ac.ebi.submission.store.submissionDocument.rest.SubmissionDocumentMongoRepository;
 import uk.ac.ebi.submission.store.submissionDocument.rest.SubmissionDocumentSearchRelNames;
 import uk.ac.ebi.submission.store.validationResult.ValidationResultMongoRepository;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -114,6 +120,42 @@ public class SubmissionDocumentApiTest {
                 validationResultMongoRepository,
                 submissionDocumentMongoRepository
         ).forEach(r -> r.deleteAll());
+    }
+
+    @Test
+    public void summarise_status() throws Exception {
+        List<SubmissionDocument> docs = Arrays.asList(
+                submissionDocument(),
+                submissionDocument(),
+                submissionDocument()
+        );
+        docs.get(0).setUniqueName("0");
+        docs.get(1).setUniqueName("1");
+        docs.get(2).setUniqueName("2");
+        docs.stream().forEach(d -> d.setStatus(ProcessingStatus.Draft));
+
+        submissionDocumentMongoRepository.insert(docs);
+
+
+        Link link = linkTo(
+                methodOn(SubmissionDocumentController.class)
+                        .summariseDocumentStatus(submission.getId())).withSelfRel();
+
+        this.mockMvc.perform(
+                get(link.getHref())
+                        .accept(MediaTypes.HAL_JSON)
+        ).andExpect(status().isOk())
+                .andDo(
+                        document("summarise-submission-document-status",
+                                preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
+                                preprocessResponse(prettyPrint()),
+                                links(),
+                                responseFields(
+                                        subsectionWithPath("content").description("for each document type in the submission, a count of how many documetns at each status")
+                                )
+                        )
+                );
+
     }
 
     @Test

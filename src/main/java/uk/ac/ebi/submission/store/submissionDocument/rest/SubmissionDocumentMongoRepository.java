@@ -3,6 +3,7 @@ package uk.ac.ebi.submission.store.submissionDocument.rest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -11,6 +12,7 @@ import uk.ac.ebi.submission.store.security.*;
 import uk.ac.ebi.submission.store.submissionDocument.SubmissionDocument;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -69,6 +71,7 @@ public interface SubmissionDocumentMongoRepository extends MongoRepository<Submi
     void deleteBySubmissionId(String submissionId);
 
     @RestResource(exported = true, rel=SubmissionDocumentSearchRelNames.BY_SUBMISSION_ID_AND_DOC_TYPE_AND_UNIQUE_NAME )
+    @PreAuthorizeSubmissionIdTeamName
     SubmissionDocument findOneBySubmissionIdAndDocumentTypeAndUniqueName(
             @Param("submissionId") String submissionId,
             @Param("documentType") String documentType,
@@ -83,4 +86,8 @@ public interface SubmissionDocumentMongoRepository extends MongoRepository<Submi
                 exampleSubmissionDocument.getUniqueName()
         );
     }
+
+    @RestResource(exported = false)
+    @PreAuthorizeSubmissionIdTeamName
+    Map<String, Map<String, Integer>> summariseProcessingStatusByType(@Param("submissionId") String submissionId);
 }

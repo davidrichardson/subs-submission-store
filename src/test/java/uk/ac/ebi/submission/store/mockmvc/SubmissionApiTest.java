@@ -16,7 +16,9 @@ import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.hateoas.Link;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
+import org.springframework.restdocs.hypermedia.LinksSnippet;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentationConfigurer;
+import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -136,18 +138,18 @@ public class SubmissionApiTest {
                         document("submissions-by-team",
                                 preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
                                 preprocessResponse(prettyPrint()),
-                                links(
-                                        halLinks(),
-                                        linkWithRel("curies").ignored(),
-                                        linkWithRel("self").ignored()
-                                ),
-                                responseFields(
-                                        subsectionWithPath("_embedded.subs:submissions[]").description("Submissions known for the team"),
-                                        DocumentationHelper.paginationBlock(),
-                                        DocumentationHelper.linksResponseField()
-                                )
+                                submissionListLinks(),
+                                submissionListResponseFields("Submissions known for the team")
                         )
                 );
+    }
+
+    private LinksSnippet submissionListLinks() {
+        return links(
+                halLinks(),
+                linkWithRel("curies").ignored(),
+                linkWithRel("self").ignored()
+        );
     }
 
     @Test
@@ -176,18 +178,18 @@ public class SubmissionApiTest {
                         document("submissions-by-user",
                                 preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
                                 preprocessResponse(prettyPrint()),
-                                links(
-                                        halLinks(),
-                                        linkWithRel("curies").ignored(),
-                                        linkWithRel("self").ignored()
-                                ),
-                                responseFields(
-                                        subsectionWithPath("_embedded.subs:submissions[]").description("List of submissions you can access"),
-                                        DocumentationHelper.paginationBlock(),
-                                        DocumentationHelper.linksResponseField()
-                                )
+                                submissionListLinks(),
+                                submissionListResponseFields("List of submissions you can access")
                         )
                 );
+    }
+
+    private ResponseFieldsSnippet submissionListResponseFields(String description) {
+        return responseFields(
+                subsectionWithPath("_embedded.subs:submissions[]").description(description),
+                DocumentationHelper.paginationBlock(),
+                DocumentationHelper.linksResponseField()
+        );
     }
 
     @Test
@@ -208,24 +210,21 @@ public class SubmissionApiTest {
                         document("get-one-submission",
                                 preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
                                 preprocessResponse(prettyPrint()),
-                                links(
-                                        halLinks(),
-                                        linkWithRel("subs:submission").ignored(),
-                                        linkWithRel("curies").ignored(),
-                                        linkWithRel("self").ignored(),
-                                        linkWithRel("subs:submissionDocuments").description("Templated links to documents for this submission")
-                                ),
-                                responseFields(
-                                        fieldWithPath("id").ignored(),
-                                        subsectionWithPath("team").ignored(),
-                                        fieldWithPath("title").ignored(),
-                                        fieldWithPath("status").ignored(),
-                                        subsectionWithPath("_actions").description("<<submission-actions,Actions>> available"),
-                                        subsectionWithPath("_audit").ignored(),
-                                        DocumentationHelper.linksResponseField()
-                                )
+                                submissionLinks(),
+                                submissionResponseFields()
                         )
                 );
+    }
+
+    private LinksSnippet submissionLinks() {
+        return links(
+                halLinks(),
+                linkWithRel("subs:submission").ignored(),
+                linkWithRel("curies").ignored(),
+                linkWithRel("self").ignored(),
+                linkWithRel("subs:submissionDocuments").description("Templated links to documents for this submission"),
+                linkWithRel("subs:documentStatusSummary").description("")
+        );
     }
 
     @Test
@@ -250,22 +249,8 @@ public class SubmissionApiTest {
                         document("create-one-submission",
                                 preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
                                 preprocessResponse(prettyPrint()),
-                                links(
-                                        halLinks(),
-                                        linkWithRel("subs:submission").ignored(),
-                                        linkWithRel("curies").ignored(),
-                                        linkWithRel("self").ignored(),
-                                        linkWithRel("subs:submissionDocuments").description("Templated links to documents for this submission")
-                                ),
-                                responseFields(
-                                        fieldWithPath("id").ignored(),
-                                        subsectionWithPath("team").ignored(),
-                                        fieldWithPath("title").ignored(),
-                                        fieldWithPath("status").ignored(),
-                                        subsectionWithPath("_actions").description("<<submission-actions,Actions>> available"),
-                                        subsectionWithPath("_audit").ignored(),
-                                        DocumentationHelper.linksResponseField()
-                                )
+                                submissionLinks(),
+                                submissionResponseFields()
                         )
                 );
     }
@@ -294,22 +279,8 @@ public class SubmissionApiTest {
                         document("patch-one-submission",
                                 preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
                                 preprocessResponse(prettyPrint()),
-                                links(
-                                        halLinks(),
-                                        linkWithRel("subs:submission").ignored(),
-                                        linkWithRel("curies").ignored(),
-                                        linkWithRel("self").ignored(),
-                                        linkWithRel("subs:submissionDocuments").description("Templated links to documents for this submission")
-                                ),
-                                responseFields(
-                                        fieldWithPath("id").ignored(),
-                                        subsectionWithPath("team").ignored(),
-                                        fieldWithPath("title").ignored(),
-                                        fieldWithPath("status").ignored(),
-                                        subsectionWithPath("_actions").description("<<submission-actions,Actions>> available"),
-                                        subsectionWithPath("_audit").ignored(),
-                                        DocumentationHelper.linksResponseField()
-                                )
+                                submissionLinks(),
+                                submissionResponseFields()
                         )
                 );
     }
@@ -344,22 +315,8 @@ public class SubmissionApiTest {
                         document("update-one-submission",
                                 preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
                                 preprocessResponse(prettyPrint()),
-                                links(
-                                        halLinks(),
-                                        linkWithRel("subs:submission").ignored(),
-                                        linkWithRel("curies").ignored(),
-                                        linkWithRel("self").ignored(),
-                                        linkWithRel("subs:submissionDocuments").description("Templated links to documents for this submission")
-                                ),
-                                responseFields(
-                                        fieldWithPath("id").ignored(),
-                                        subsectionWithPath("team").ignored(),
-                                        fieldWithPath("title").ignored(),
-                                        fieldWithPath("status").ignored(),
-                                        subsectionWithPath("_actions").description("<<submission-actions,Actions>> available"),
-                                        subsectionWithPath("_audit").ignored(),
-                                        DocumentationHelper.linksResponseField()
-                                )
+                                submissionLinks(),
+                                submissionResponseFields()
                         )
                 );
     }
@@ -388,24 +345,22 @@ public class SubmissionApiTest {
                         document("submit-one-submission",
                                 preprocessRequest(prettyPrint(), DocumentationHelper.addAuthTokenHeader()),
                                 preprocessResponse(prettyPrint()),
-                                links(
-                                        halLinks(),
-                                        linkWithRel("subs:submission").ignored(),
-                                        linkWithRel("curies").ignored(),
-                                        linkWithRel("self").ignored(),
-                                        linkWithRel("subs:submissionDocuments").description("Templated links to documents for this submission")
-                                ),
-                                responseFields(
-                                        fieldWithPath("id").ignored(),
-                                        subsectionWithPath("team").ignored(),
-                                        fieldWithPath("title").ignored(),
-                                        fieldWithPath("status").ignored(),
-                                        subsectionWithPath("_actions").description("<<submission-actions,Actions>> available"),
-                                        subsectionWithPath("_audit").ignored(),
-                                        DocumentationHelper.linksResponseField()
-                                )
+                                submissionLinks(),
+                                submissionResponseFields()
                         )
                 );
+    }
+
+    private ResponseFieldsSnippet submissionResponseFields() {
+        return responseFields(
+                fieldWithPath("id").ignored(),
+                subsectionWithPath("team").ignored(),
+                fieldWithPath("title").ignored(),
+                fieldWithPath("status").ignored(),
+                subsectionWithPath("_actions").description("<<submission-actions,Actions>> available"),
+                subsectionWithPath("_audit").ignored(),
+                DocumentationHelper.linksResponseField()
+        );
     }
 
     @Test

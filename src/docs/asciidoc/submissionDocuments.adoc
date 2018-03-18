@@ -106,6 +106,13 @@ include::{snippets}/delete-one-submission-document/http-response.adoc[]
 
 == Summarise document statuses for a submission
 
+=== Request
+
+include::{snippets}/summarise-submission-document-status/curl-request.adoc[]
+
+=== Response
+
+include::{snippets}/summarise-submission-document-status/http-response.adoc[]
 
 
 == Submission document schema

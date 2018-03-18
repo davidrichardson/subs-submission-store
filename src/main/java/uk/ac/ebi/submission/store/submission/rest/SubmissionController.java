@@ -41,7 +41,7 @@ public class SubmissionController {
     private IdentifiableResourceSelfLinker<Submission> identifiableResourceSelfLinker;
 
     @RequestMapping(method = RequestMethod.GET, value = "/user/submissions")
-    public @ResponseBody
+    public
     ResponseEntity<PagedResources<Resource<Submission>>> userSubmissions(Pageable pageable) {
         List<String> teamNamesForUser = currentUserService.userTeams();
 
