@@ -68,18 +68,19 @@ public interface SubmissionDocumentMongoRepository extends MongoRepository<Submi
     @RestResource(exported = false)
     void deleteBySubmissionId(String submissionId);
 
-    @RestResource(exported = true)
-    Optional<SubmissionDocument> findOneBySubmissionIdAndUniqueNameAndDocumentType(
-            String submissionId,
-            String uniqueName,
-            String documentType
+    @RestResource(exported = true, rel=SubmissionDocumentSearchRelNames.BY_SUBMISSION_ID_AND_DOC_TYPE_AND_UNIQUE_NAME )
+    SubmissionDocument findOneBySubmissionIdAndDocumentTypeAndUniqueName(
+            @Param("submissionId") String submissionId,
+            @Param("documentType") String documentType,
+            @Param("uniqueName") String uniqueName
+
     );
 
-    default Optional<SubmissionDocument> findOneBySubmissionIdAndUniqueNameAndDocumentType(SubmissionDocument exampleSubmissionDocument) {
-        return this.findOneBySubmissionIdAndUniqueNameAndDocumentType(
+    default SubmissionDocument findOneBySubmissionIdAndUniqueNameAndDocumentType(SubmissionDocument exampleSubmissionDocument) {
+        return this.findOneBySubmissionIdAndDocumentTypeAndUniqueName(
                 exampleSubmissionDocument.getSubmissionId(),
-                exampleSubmissionDocument.getUniqueName(),
-                exampleSubmissionDocument.getDocumentType()
+                exampleSubmissionDocument.getDocumentType(),
+                exampleSubmissionDocument.getUniqueName()
         );
     }
 }

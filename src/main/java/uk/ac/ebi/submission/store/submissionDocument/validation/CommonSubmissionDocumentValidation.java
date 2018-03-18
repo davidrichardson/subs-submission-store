@@ -105,9 +105,9 @@ public class CommonSubmissionDocumentValidation {
                 && submissionDocument.getSubmissionId() != null
                 && submissionDocument.getDocumentType() != null) {
 
-            Optional<SubmissionDocument> existingSubmissionDocument = submissionDocumentMongoRepository.findOneBySubmissionIdAndUniqueNameAndDocumentType(submissionDocument);
+            SubmissionDocument existingSubmissionDocument = submissionDocumentMongoRepository.findOneBySubmissionIdAndUniqueNameAndDocumentType(submissionDocument);
 
-            if (existingSubmissionDocument.isPresent() && !existingSubmissionDocument.get().getId().equals(submissionDocument.getId())) {
+            if (existingSubmissionDocument != null && !existingSubmissionDocument.getId().equals(submissionDocument.getId())) {
                 SubsApiErrors.already_exists.addError(errors);
             }
         }

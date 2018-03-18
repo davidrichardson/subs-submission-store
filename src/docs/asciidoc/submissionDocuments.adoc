@@ -34,7 +34,6 @@ include::{snippets}/get-all-submission-documents-for-submission/curl-request.ado
 
 include::{snippets}/get-all-submission-documents-for-submission/http-response.adoc[]
 
-
 == List documents of one type in a submission
 
 === Request
@@ -45,9 +44,25 @@ include::{snippets}/get-all-submission-documents-for-submission-and-type/curl-re
 
 include::{snippets}/get-all-submission-documents-for-submission-and-type/http-response.adoc[]
 
-== Get a single submission document by ID
+== Get one submission document by ID
 
-== Get a single submission document by submission, type and unique name
+=== Request
+
+include::{snippets}/get-one-submission-document/curl-request.adoc[]
+
+=== Response
+
+include::{snippets}/get-one-submission-document/http-response.adoc[]
+
+== Get one submission document by submission, type and unique name
+
+=== Request
+
+include::{snippets}/get-one-submission-document-by-submission-type-and-name/curl-request.adoc[]
+
+=== Response
+
+include::{snippets}/get-one-submission-document-by-submission-type-and-name/http-response.adoc[]
 
 == Add a document to a submission
 
@@ -90,6 +105,8 @@ include::{snippets}/delete-one-submission-document/curl-request.adoc[]
 include::{snippets}/delete-one-submission-document/http-response.adoc[]
 
 == Summarise document statuses for a submission
+
+
 
 == Submission document schema
 
